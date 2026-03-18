@@ -44,39 +44,66 @@ export default function Reservation() {
 
   const downloadPDF = async () => {
     const element = document.getElementById('voucher-ticket');
-    if (!element) return;
+    if (!element || !voucher) return;
     
     setIsDownloading(true);
     try {
-      // 临时修改样式以确保截图清晰
-      const originalTransform = element.style.transform;
-      element.style.transform = 'none';
-      
-      const canvas = await html2canvas(element, { 
-        scale: 2, 
-        backgroundColor: '#ffffff',
+      // 使用 html2canvas 捕获元素
+      const canvas = await html2canvas(element, {
+        scale: 3, // 提高缩放比例以获得更高清晰度
         useCORS: true,
-        logging: false
+        allowTaint: true,
+        backgroundColor: '#ffffff',
+        logging: false,
+        onclone: (clonedDoc) => {
+          // 在克隆的文档中微调样式，确保截图完美
+          const clonedElement = clonedDoc.getElementById('voucher-ticket');
+          if (clonedElement) {
+            clonedElement.style.margin = '0';
+            clonedElement.style.boxShadow = 'none';
+            clonedElement.style.transform = 'none';
+            clonedElement.style.borderRadius = '0'; // PDF 中通常不需要圆角阴影
+          }
+        }
       });
       
-      element.style.transform = originalTransform;
+      const imgData = canvas.toDataURL('image/png', 1.0);
       
-      const imgData = canvas.toDataURL('image/png');
-      const pdf = new jsPDF('p', 'mm', 'a4');
+      // 创建 PDF
+      const pdf = new jsPDF({
+        orientation: 'portrait',
+        unit: 'mm',
+        format: 'a4'
+      });
       
-      // A4 尺寸: 210 x 297 mm
       const pdfWidth = pdf.internal.pageSize.getWidth();
-      const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+      const pdfHeight = pdf.internal.pageSize.getHeight();
       
-      // 居中放置凭证
-      const xOffset = 0;
-      const yOffset = 20;
+      // 计算图片在 PDF 中的尺寸（保持比例）
+      // 设定图片宽度为 PDF 宽度的 80%
+      const margin = 20;
+      const imgWidth = pdfWidth - (margin * 2);
+      const imgHeight = (canvas.height * imgWidth) / canvas.width;
       
-      pdf.addImage(imgData, 'PNG', xOffset, yOffset, pdfWidth, pdfHeight);
-      pdf.save(`LSM展馆预约凭证_${voucher?.id}.pdf`);
+      // 居中放置
+      const x = margin;
+      const y = 30; // 距离顶部 30mm
+      
+      // 添加标题（可选）
+      pdf.setFontSize(10);
+      pdf.setTextColor(150, 150, 150);
+      pdf.text('Life Science Museum - Official Reservation Voucher', pdfWidth / 2, 15, { align: 'center' });
+      
+      pdf.addImage(imgData, 'PNG', x, y, imgWidth, imgHeight, undefined, 'FAST');
+      
+      // 添加页脚
+      pdf.setFontSize(8);
+      pdf.text(`Generated on: ${new Date().toLocaleString()} | ID: ${voucher.id}`, pdfWidth / 2, pdfHeight - 10, { align: 'center' });
+      
+      pdf.save(`LSM展馆预约凭证_${voucher.id}.pdf`);
     } catch (error) {
-      console.error('PDF generation failed', error);
-      alert('PDF 生成失败，请重试');
+      console.error('PDF generation failed:', error);
+      alert('PDF 生成失败，请检查浏览器权限或重试。');
     } finally {
       setIsDownloading(false);
     }
