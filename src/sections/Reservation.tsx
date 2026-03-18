@@ -3,7 +3,7 @@ import { createPortal } from 'react-dom';
 import { motion } from 'motion/react';
 import { Calendar, Clock, Users, Mail, Phone, User, CheckCircle2, Download, X, QrCode } from 'lucide-react';
 import { dbService, ReservationData } from '../services/db';
-import html2canvas from 'html2canvas';
+import * as htmlToImage from 'html-to-image';
 import { jsPDF } from 'jspdf';
 
 export default function Reservation() {
@@ -48,35 +48,17 @@ export default function Reservation() {
     
     setIsDownloading(true);
     try {
-      // 获取元素的实际尺寸
-      const width = element.offsetWidth;
-      const height = element.offsetHeight;
-
-      // 使用更稳健的配置调用 html2canvas
-      const canvas = await html2canvas(element, {
-        scale: 2, // 适中的缩放比例
-        allowTaint: true, // 禁止污染，确保 toDataURL 可用
+      // 使用 html-to-image 替代 html2canvas，通常在 iframe 中更稳定
+      // 增加 pixelRatio 以提高清晰度
+      const dataUrl = await htmlToImage.toPng(element, {
         backgroundColor: '#ffffff',
-        width: width,
-        height: height,
-        logging: false,
-        onclone: (clonedDoc) => {
-          const clonedElement = clonedDoc.getElementById('voucher-ticket');
-          if (clonedElement) {
-            // 强制移除所有可能干扰截图的样式
-            clonedElement.style.transform = 'none';
-            clonedElement.style.transition = 'none';
-            clonedElement.style.animation = 'none';
-            clonedElement.style.position = 'relative';
-            clonedElement.style.margin = '0';
-            clonedElement.style.left = '0';
-            clonedElement.style.top = '0';
-            clonedElement.style.boxShadow = 'none';
-          }
+        pixelRatio: 2,
+        style: {
+          transform: 'none',
+          margin: '0',
+          boxShadow: 'none',
         }
       });
-      
-      const imgData = canvas.toDataURL('image/png', 1.0);
       
       const pdf = new jsPDF({
         orientation: 'portrait',
@@ -89,7 +71,15 @@ export default function Reservation() {
       
       const margin = 20;
       const imgWidth = pdfWidth - (margin * 2);
-      const imgHeight = (canvas.height * imgWidth) / canvas.width;
+      
+      // 创建一个临时的 Image 对象来获取宽高比
+      const img = new Image();
+      img.src = dataUrl;
+      await new Promise((resolve) => {
+        img.onload = resolve;
+      });
+      
+      const imgHeight = (img.height * imgWidth) / img.width;
       
       const x = margin;
       const y = 30;
@@ -98,7 +88,7 @@ export default function Reservation() {
       pdf.setTextColor(150, 150, 150);
       pdf.text('Life Science Museum - Official Reservation Voucher', pdfWidth / 2, 15, { align: 'center' });
       
-      pdf.addImage(imgData, 'PNG', x, y, imgWidth, imgHeight);
+      pdf.addImage(dataUrl, 'PNG', x, y, imgWidth, imgHeight);
       
       pdf.setFontSize(8);
       pdf.text(`Generated on: ${new Date().toLocaleString()} | ID: ${voucher.id}`, pdfWidth / 2, pdfHeight - 10, { align: 'center' });
@@ -106,7 +96,7 @@ export default function Reservation() {
       pdf.save(`LSM展馆预约凭证_${voucher.id}.pdf`);
     } catch (error) {
       console.error('PDF generation detailed error:', error);
-      alert('PDF 生成失败。请尝试在浏览器新标签页中打开应用，或检查是否禁用了 Canvas 权限。');
+      alert('PDF 生成失败。请尝试在浏览器新标签页中打开应用，或检查网络连接。');
     } finally {
       setIsDownloading(false);
     }
