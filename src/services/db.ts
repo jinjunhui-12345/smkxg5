@@ -39,7 +39,7 @@ export const dbService = {
     };
 
     const { data: savedData, error } = await supabase
-      .from('reservations')
+      .from('ReservationData')
       .insert([newRecord])
       .select()
       .single();
@@ -53,7 +53,7 @@ export const dbService = {
     if (!supabase) return [];
 
     const { data, error } = await supabase
-      .from('reservations')
+      .from('ReservationData')
       .select('*')
       .order('created_at', { ascending: false });
 
