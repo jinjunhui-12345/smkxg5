@@ -24,6 +24,12 @@ export default function Reservation() {
       alert('请填写必填项（姓名、身份/人数、电话、日期、时间）');
       return;
     }
+
+    const phoneRegex = /^1\d{10}$/;
+    if (!phoneRegex.test(formData.phone)) {
+      alert('请输入正确的11位手机号码（以1开头）');
+      return;
+    }
     
     setIsSubmitting(true);
     try {
@@ -84,7 +90,8 @@ export default function Reservation() {
                 </div>
                 <div>
                   <p className="font-medium text-white">开放时间</p>
-                  <p className="text-sm">-----------</p>
+                  <p className="text-sm">开放日不定，详见公众号</p>
+                  <strong><a href="https://mp.weixin.qq.com/mp/profile_ext?action=home&__biz=Mzg5Nzg2MjA0NA==">--点击跳转--</a></strong>
                 </div>
               </motion.div>
               <motion.div variants={itemVariants} className="flex items-center gap-4 text-zinc-300">
@@ -185,15 +192,16 @@ export default function Reservation() {
 
               <motion.div variants={itemVariants} className="space-y-2">
                 <label className="text-sm font-medium text-zinc-400 flex items-center gap-2">
-                  <Phone className="w-4 h-4" /> 联系电话 <span className="text-emerald-500">*</span>
+                  <Phone className="w-4 h-4" / > 联系电话 <span className="text-emerald-500">*</span>
                 </label>
                 <input
                   type="tel"
                   required
                   value={formData.phone}
-                  onChange={(e) => setFormData({...formData, phone: e.target.value})}
+                  onChange={(e) => setFormData({...formData, phone: e.target.value.replace(/\D/g, '').slice(0, 11)})}
                   className="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-emerald-500/50 transition-all"
-                  placeholder="请输入手机号码"
+                  placeholder="请输入11位手机号码"
+                  pattern="1[0-9]{10}"
                 />
               </motion.div>
 

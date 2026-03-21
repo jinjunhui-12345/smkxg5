@@ -59,10 +59,12 @@ export default function Exhibition() {
             initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            href="#"
-            className="group flex items-center gap-2 text-emerald-400 hover:text-emerald-300 transition-colors"
+            href="https://www.720yuntu.com/720v2/player/269564"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group flex items-center gap-2 text-emerald-400 hover:text-emerald-300 transition-all duration-300 hover:-translate-y-1"
           >
-            <span className="font-medium"><a href="https://www.720yuntu.com/720v2/player/269564">进入全景展厅</a></span>
+            <span className="font-medium">进入全景展厅</span>
             <ArrowUpRight className="w-5 h-5 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
           </motion.a>
         </div>

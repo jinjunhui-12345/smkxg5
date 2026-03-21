@@ -1,4 +1,5 @@
 import { motion, useScroll, useTransform } from 'motion/react';
+import { ArrowUpRight } from 'lucide-react';
 import { useRef } from 'react';
 
 export default function About() {
@@ -34,13 +35,23 @@ export default function About() {
             >
               01 / 展馆介绍
             </motion.h2>
-            <motion.h3 
+            <motion.div
               variants={{ hidden: { opacity: 0, y: 30 }, visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } } }}
-              className="text-4xl md:text-6xl font-bold tracking-tight mb-8 leading-[1.1]"
+              className="mb-8"
             >
-            <span className="font-medium"><a href="https://lsmdescription.pages.dev/">展馆详细介绍</a></span><br/>
-              跨越时空的<br />医学对话
-            </motion.h3>
+              <a 
+                href="https://lsmdescription.pages.dev/" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="group inline-flex items-center gap-2 text-emerald-400 hover:text-emerald-300 font-medium mb-4 transition-all duration-300 hover:-translate-y-1"
+              >
+                <span>展馆详细介绍</span>
+                <ArrowUpRight className="w-5 h-5 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
+              </a>
+              <h3 className="text-4xl md:text-6xl font-bold tracking-tight leading-[1.1]">
+                跨越时空的<br />医学对话
+              </h3>
+            </motion.div>
             <motion.p 
               variants={{ hidden: { opacity: 0, y: 30 }, visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } } }}
               className="text-lg text-zinc-400 leading-relaxed mb-8 max-w-xl"
