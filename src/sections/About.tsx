@@ -38,6 +38,7 @@ export default function About() {
               variants={{ hidden: { opacity: 0, y: 30 }, visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } } }}
               className="text-4xl md:text-6xl font-bold tracking-tight mb-8 leading-[1.1]"
             >
+            <span className="font-medium"><a href="https://lsmdescription.pages.dev/">展馆详细介绍</a></span><br/>
               跨越时空的<br />医学对话
             </motion.h3>
             <motion.p 

@@ -22,8 +22,8 @@ const exhibits = [
   },
   {
     id: 4,
-    title: '中医药文化',
-    category: '传统医学',
+    title: '医药文化',
+    category: '现代医学',
     image: 'https://images.unsplash.com/photo-1512069772995-ec65ed45afd6?q=80&w=1974&auto=format&fit=crop',
   },
 ];
