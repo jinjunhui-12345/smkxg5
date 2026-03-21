@@ -1,10 +1,8 @@
 import React, { useState } from 'react';
 import { createPortal } from 'react-dom';
 import { motion } from 'motion/react';
-import { Calendar, Clock, Users, Mail, Phone, User, CheckCircle2, Download, X, QrCode } from 'lucide-react';
+import { Calendar, Clock, Users, Mail, Phone, User, CheckCircle2, List, X, QrCode, AlertCircle } from 'lucide-react';
 import { dbService, ReservationData } from '../services/db';
-import * as htmlToImage from 'html-to-image';
-import { jsPDF } from 'jspdf';
 
 export default function Reservation() {
   const [formData, setFormData] = useState({
@@ -18,7 +16,7 @@ export default function Reservation() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [voucher, setVoucher] = useState<ReservationData | null>(null);
-  const [isDownloading, setIsDownloading] = useState(false);
+  const [lastSubmittedVoucher, setLastSubmittedVoucher] = useState<ReservationData | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -32,75 +30,17 @@ export default function Reservation() {
       const savedData = await dbService.saveReservation(formData);
       setIsSuccess(true);
       setVoucher(savedData);
+      setLastSubmittedVoucher(savedData);
       setFormData({ name: '', identity: '', phone: '', visit_date: '', visit_time: '', remarks: '' });
       setTimeout(() => setIsSuccess(false), 5000);
     } catch (error) {
       console.error('Failed to save reservation:', error);
-      alert('预约提交失败，请重试');
+      alert('提交预约失败，请稍后重试');
     } finally {
       setIsSubmitting(false);
     }
   };
 
-  const downloadPDF = async () => {
-    const element = document.getElementById('voucher-ticket');
-    if (!element || !voucher) return;
-    
-    setIsDownloading(true);
-    try {
-      // 使用 html-to-image 替代 html2canvas，通常在 iframe 中更稳定
-      // 增加 pixelRatio 以提高清晰度
-      const dataUrl = await htmlToImage.toPng(element, {
-        backgroundColor: '#ffffff',
-        pixelRatio: 2,
-        style: {
-          transform: 'none',
-          margin: '0',
-          boxShadow: 'none',
-        }
-      });
-      
-      const pdf = new jsPDF({
-        orientation: 'portrait',
-        unit: 'mm',
-        format: 'a4'
-      });
-      
-      const pdfWidth = pdf.internal.pageSize.getWidth();
-      const pdfHeight = pdf.internal.pageSize.getHeight();
-      
-      const margin = 20;
-      const imgWidth = pdfWidth - (margin * 2);
-      
-      // 创建一个临时的 Image 对象来获取宽高比
-      const img = new Image();
-      img.src = dataUrl;
-      await new Promise((resolve) => {
-        img.onload = resolve;
-      });
-      
-      const imgHeight = (img.height * imgWidth) / img.width;
-      
-      const x = margin;
-      const y = 30;
-      
-      pdf.setFontSize(10);
-      pdf.setTextColor(150, 150, 150);
-      pdf.text('Life Science Museum - Official Reservation Voucher', pdfWidth / 2, 15, { align: 'center' });
-      
-      pdf.addImage(dataUrl, 'PNG', x, y, imgWidth, imgHeight);
-      
-      pdf.setFontSize(8);
-      pdf.text(`Generated on: ${new Date().toLocaleString()} | ID: ${voucher.id}`, pdfWidth / 2, pdfHeight - 10, { align: 'center' });
-      
-      pdf.save(`LSM展馆预约凭证_${voucher.id}.pdf`);
-    } catch (error) {
-      console.error('PDF generation detailed error:', error);
-      alert('PDF 生成失败。请尝试在浏览器新标签页中打开应用，或检查网络连接。');
-    } finally {
-      setIsDownloading(false);
-    }
-  };
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -144,7 +84,7 @@ export default function Reservation() {
                 </div>
                 <div>
                   <p className="font-medium text-white">开放时间</p>
-                  <p className="text-sm">周二至周日 09:00 - 17:00 (周一闭馆)</p>
+                  <p className="text-sm">-----------</p>
                 </div>
               </motion.div>
               <motion.div variants={itemVariants} className="flex items-center gap-4 text-zinc-300">
@@ -280,6 +220,19 @@ export default function Reservation() {
                 '提交预约申请'
               )}
             </motion.button>
+
+            {lastSubmittedVoucher && (
+              <motion.button
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                type="button"
+                onClick={() => setVoucher(lastSubmittedVoucher)}
+                className="w-full bg-zinc-800 hover:bg-zinc-700 text-white font-medium py-4 rounded-xl transition-colors duration-300 flex justify-center items-center gap-2"
+              >
+                <QrCode className="w-5 h-5 text-emerald-400" />
+                查看我的预约凭证
+              </motion.button>
+            )}
           </motion.form>
         </motion.div>
       </div>
@@ -302,7 +255,7 @@ export default function Reservation() {
             <h3 className="text-xl font-bold text-white mb-4 text-center">预约成功</h3>
             
             <div className="flex-1 overflow-y-auto overflow-x-hidden pb-4">
-              {/* Ticket Element to be converted to PDF */}
+              {/* Ticket Element */}
               <div id="voucher-ticket" className="bg-white text-black rounded-xl p-8 relative overflow-hidden mx-auto w-full max-w-[350px] shadow-lg">
                 {/* Decorative elements */}
                 <div className="absolute top-0 left-0 w-full h-3 bg-emerald-500"></div>
@@ -351,20 +304,18 @@ export default function Reservation() {
                   <p className="text-xs text-gray-400 text-center">入馆时请出示此凭证</p>
                 </div>
               </div>
+              
+              <div className="mt-4 flex items-center gap-2 text-emerald-400 justify-center">
+                <AlertCircle className="w-4 h-4" />
+                <p className="text-sm font-medium">!请截图保存此凭证，以便入馆核验</p>
+              </div>
             </div>
 
             <button
-              onClick={downloadPDF}
-              disabled={isDownloading}
-              className="w-full mt-4 bg-emerald-500 hover:bg-emerald-400 disabled:bg-emerald-500/50 disabled:cursor-not-allowed text-black font-bold py-3 rounded-xl transition-colors duration-300 flex items-center justify-center gap-2 shrink-0"
+              onClick={() => setVoucher(null)}
+              className="w-full mt-4 bg-emerald-500 hover:bg-emerald-400 text-black font-bold py-3 rounded-xl transition-colors duration-300 flex items-center justify-center gap-2 shrink-0"
             >
-              {isDownloading ? (
-                <div className="w-5 h-5 border-2 border-black/20 border-t-black rounded-full animate-spin" />
-              ) : (
-                <>
-                  <Download className="w-4 h-4" /> 保存凭证为 PDF
-                </>
-              )}
+              确认并关闭
             </button>
           </motion.div>
         </div>,

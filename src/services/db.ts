@@ -59,5 +59,32 @@ export const dbService = {
 
     if (error) throw error;
     return data || [];
+  },
+
+  async updateReservation(id: string, data: Partial<ReservationData>): Promise<ReservationData> {
+    const supabase = getSupabase();
+    if (!supabase) throw new Error('Database not configured');
+
+    const { data: updatedData, error } = await supabase
+      .from('ReservationData')
+      .update(data)
+      .eq('id', id)
+      .select()
+      .single();
+
+    if (error) throw error;
+    return updatedData;
+  },
+
+  async deleteReservation(id: string): Promise<void> {
+    const supabase = getSupabase();
+    if (!supabase) throw new Error('Database not configured');
+
+    const { error } = await supabase
+      .from('ReservationData')
+      .delete()
+      .eq('id', id);
+
+    if (error) throw error;
   }
 };

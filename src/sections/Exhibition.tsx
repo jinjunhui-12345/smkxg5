@@ -62,7 +62,7 @@ export default function Exhibition() {
             href="#"
             className="group flex items-center gap-2 text-emerald-400 hover:text-emerald-300 transition-colors"
           >
-            <span className="font-medium">进入全景展厅</span>
+            <span className="font-medium"><a href="https://www.720yuntu.com/720v2/player/269564">进入全景展厅</a></span>
             <ArrowUpRight className="w-5 h-5 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
           </motion.a>
         </div>
