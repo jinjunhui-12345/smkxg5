@@ -38,7 +38,7 @@ export default function Reservation() {
       setVoucher(savedData);
       setLastSubmittedVoucher(savedData);
       setFormData({ name: '', identity: '', phone: '', visit_date: '', visit_time: '', remarks: '' });
-      setTimeout(() => setIsSuccess(false), 5000);
+      setTimeout(() => setIsSuccess(false), 2000);
     } catch (error) {
       console.error('Failed to save reservation:', error);
       alert('提交预约失败，请稍后重试');
@@ -98,8 +98,8 @@ export default function Reservation() {
                   <Phone className="w-5 h-5 text-emerald-400" />
                 </div>
                 <div>
-                  <p className="font-medium text-white">咨询电话</p>
-                  <p className="text-sm">010-12345678</p>
+                  <p className="font-medium text-white">联系邮箱</p>
+                  <p className="text-sm">3544472701@qq.com</p>
                 </div>
               </motion.div>
             </motion.div>
