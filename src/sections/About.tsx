@@ -95,8 +95,8 @@ export default function About() {
             className="absolute right-0 bottom-10 w-1/2 h-1/2 rounded-2xl overflow-hidden shadow-2xl z-20"
           >
             <img
-              src="https://images.unsplash.com/photo-1581093458791-9f3c3900df4b?q=80&w=2070&auto=format&fit=crop"
-              alt="Microscope"
+              src="https://images.unsplash.com/photo-1576086213369-97a306d36557?q=80&w=2070&auto=format&fit=crop"
+              alt="Medical science detail"
               className="w-full h-full object-cover"
               referrerPolicy="no-referrer"
             />

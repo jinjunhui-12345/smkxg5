@@ -1,33 +1,33 @@
 import { motion } from 'motion/react';
 
 const studentsData = [
-  {
+   {
     id: 1,
-    title: '临床技能大赛一等奖',
-    name: '张同学 & 李同学',
-    image: 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?q=80&w=2070&auto=format&fit=crop',
-    description: '在全国医学生临床技能大赛中，我校代表队凭借扎实的基本功和出色的临场应变能力，荣获特等奖。',
+    title: '榜样力量',
+    name: '王同学、周同学、黄同学等',
+    image: 'https://images.unsplash.com/photo-1497633762265-9d179a990aa6?q=80&w=2073&auto=format&fit=crop',
+    description: '多人荣获国家级励志奖学金，更受邀在从医行分享保研经验贴，用实际行动传承学习力量。',
   },
   {
     id: 2,
-    title: '《Nature》子刊发表论文',
-    name: '王同学',
-    image: 'https://images.unsplash.com/photo-1532094349884-543bc11b234d?q=80&w=2070&auto=format&fit=crop',
-    description: '我院博士研究生在肿瘤免疫治疗领域取得重大突破，相关研究成果发表于国际顶级期刊。',
+    title: '学海共渡',
+    name: '解剖科技协会全体社员',
+    image: 'https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?q=80&w=2073&auto=format&fit=crop',
+    description: '营造出浓厚的学习氛围，鼓励成员主动求知、互助交流，在共同学习与经验分享中，巩固专业知识，实现个人能力提升。',
   },
   {
     id: 3,
-    title: '暑期“三下乡”医疗服务',
+    title: '步履实践',
     name: '志愿服务队',
-    image: 'https://images.unsplash.com/photo-1584515933487-779824d29309?q=80&w=2070&auto=format&fit=crop',
-    description: '深入偏远山区开展义诊活动，普及健康知识，用实际行动践行“医者仁心”的誓言。',
+    image: 'https://images.unsplash.com/photo-1584036561566-baf8f5f1b144?q=80&w=2089&auto=format&fit=crop',
+    description: '通过基层实践，增强社会意识与责任感，践行新时代医学生的使命担当。',
   },
   {
     id: 4,
-    title: '国际医学交流论坛',
-    name: '赵同学',
-    image: 'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?q=80&w=2070&auto=format&fit=crop',
-    description: '受邀参加全球青年医学领袖峰会，就公共卫生政策与全球健康议题发表演讲。',
+    title: '科创逐梦',
+    name: '莘莘学子',
+    image: 'https://images.unsplash.com/photo-1511174511562-5f7f18b874f8?q=80&w=2070&auto=format&fit=crop',
+    description: '用智慧与担当书写新时代医学生的科创答卷，为医学领域的创新发展注入青春力量。',
   },
 ];
 

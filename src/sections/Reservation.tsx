@@ -91,7 +91,6 @@ export default function Reservation() {
                 <div>
                   <p className="font-medium text-white">开放时间</p>
                   <p className="text-sm">开放日不定，详见公众号</p>
-                  <strong><a href="https://mp.weixin.qq.com/mp/profile_ext?action=home&__biz=Mzg5Nzg2MjA0NA==">--点击跳转--</a></strong>
                 </div>
               </motion.div>
               <motion.div variants={itemVariants} className="flex items-center gap-4 text-zinc-300">
