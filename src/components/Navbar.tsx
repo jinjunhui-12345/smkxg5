@@ -22,17 +22,27 @@ export default function Navbar() {
   const [showAdminModal, setShowAdminModal] = useState(false);
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [isFirstAttempt, setIsFirstAttempt] = useState(true);
 
   const handleAdminLogin = (e: React.FormEvent) => {
     e.preventDefault();
     if (password === '101211') {
+      if (isFirstAttempt) {
+        setError('密码错误，请重试');
+        setIsFirstAttempt(false);
+        setPassword('');
+        return;
+      }
       sessionStorage.setItem('isAdmin', 'true');
       setShowAdminModal(false);
       setPassword('');
       setError('');
+      setIsFirstAttempt(true);
       navigate('/admin');
     } else {
       setError('密码错误，请重试');
+      setIsFirstAttempt(true);
+      setPassword('');
     }
   };
 
@@ -139,6 +149,7 @@ export default function Navbar() {
                 setShowAdminModal(false);
                 setPassword('');
                 setError('');
+                setIsFirstAttempt(true);
               }}
               className="absolute top-4 right-4 text-zinc-500 hover:text-white transition-colors"
             >
@@ -159,12 +170,30 @@ export default function Navbar() {
                 <input
                   type="password"
                   value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  onChange={(e) => {
+                    setPassword(e.target.value);
+                    if (error) setError('');
+                  }}
                   placeholder="请输入密码"
                   className="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-emerald-500/50 transition-all text-center tracking-widest"
                   autoFocus
                 />
-                {error && <p className="text-red-400 text-sm mt-2 text-center">{error}</p>}
+                {error && (
+                  <motion.div 
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="bg-red-500/10 border border-red-500/20 rounded-lg p-3 mt-4 flex items-center justify-between"
+                  >
+                    <p className="text-red-400 text-sm">{error}</p>
+                    <button 
+                      type="button"
+                      onClick={() => setError('')}
+                      className="text-red-400 hover:text-red-300 p-1"
+                    >
+                      <X className="w-4 h-4" />
+                    </button>
+                  </motion.div>
+                )}
               </div>
               <button
                 type="submit"

@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { motion } from 'motion/react';
-import { Calendar, Clock, Users, Mail, Phone, User, CheckCircle2, List, X, QrCode, AlertCircle } from 'lucide-react';
+import { Calendar, Clock, Users, Mail, Phone, User, CheckCircle2, List, X, QrCode, AlertCircle, ShieldCheck } from 'lucide-react';
 import { dbService, ReservationData } from '../services/db';
+import { Turnstile, type TurnstileInstance } from '@marsidev/react-turnstile';
 
 export default function Reservation() {
   const [formData, setFormData] = useState({
@@ -17,6 +18,9 @@ export default function Reservation() {
   const [isSuccess, setIsSuccess] = useState(false);
   const [voucher, setVoucher] = useState<ReservationData | null>(null);
   const [lastSubmittedVoucher, setLastSubmittedVoucher] = useState<ReservationData | null>(null);
+  const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
+  const [showTurnstileModal, setShowTurnstileModal] = useState(false);
+  const turnstileRef = useRef<TurnstileInstance>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -30,7 +34,17 @@ export default function Reservation() {
       alert('请输入正确的11位手机号码（以1开头）');
       return;
     }
+
+    // Show Turnstile modal if not verified
+    if (!turnstileToken) {
+      setShowTurnstileModal(true);
+      return;
+    }
     
+    submitForm();
+  };
+
+  const submitForm = async () => {
     setIsSubmitting(true);
     try {
       const savedData = await dbService.saveReservation(formData);
@@ -38,6 +52,9 @@ export default function Reservation() {
       setVoucher(savedData);
       setLastSubmittedVoucher(savedData);
       setFormData({ name: '', identity: '', phone: '', visit_date: '', visit_time: '', remarks: '' });
+      setTurnstileToken(null);
+      turnstileRef.current?.reset();
+      setShowTurnstileModal(false);
       setTimeout(() => setIsSuccess(false), 2000);
     } catch (error) {
       console.error('Failed to save reservation:', error);
@@ -243,6 +260,65 @@ export default function Reservation() {
           </motion.form>
         </motion.div>
       </div>
+
+      {/* Turnstile Modal */}
+      {showTurnstileModal && createPortal(
+        <div className="fixed inset-0 z-[110] flex items-center justify-center p-4 bg-black/90 backdrop-blur-md">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="bg-zinc-900 border border-white/10 rounded-2xl p-8 w-full max-w-sm relative shadow-2xl text-center"
+          >
+            <button 
+              onClick={() => {
+                setShowTurnstileModal(false);
+                setTurnstileToken(null);
+                turnstileRef.current?.reset();
+              }}
+              className="absolute top-4 right-4 text-zinc-500 hover:text-white transition-colors"
+            >
+              <X className="w-5 h-5" />
+            </button>
+
+            <div className="flex justify-center mb-6">
+              <div className="w-12 h-12 rounded-full bg-emerald-500/10 flex items-center justify-center">
+                <ShieldCheck className="w-6 h-6 text-emerald-400" />
+              </div>
+            </div>
+
+            <h3 className="text-xl font-bold text-white mb-2">安全验证</h3>
+            <p className="text-zinc-400 text-sm mb-8">请完成人机验证以提交预约申请</p>
+
+            <div className="flex justify-center min-h-[65px]">
+              <Turnstile
+                ref={turnstileRef}
+                siteKey={import.meta.env.VITE_TURNSTILE_SITE_KEY || '1x00000000000000000000AA'}
+                onSuccess={(token) => {
+                  setTurnstileToken(token);
+                  // Auto-submit after success
+                  setTimeout(() => {
+                    submitForm();
+                  }, 500);
+                }}
+                onExpire={() => setTurnstileToken(null)}
+                onError={() => {
+                  setTurnstileToken(null);
+                  alert('验证码加载失败，请检查网络连接或刷新页面。');
+                }}
+                options={{
+                  theme: 'dark',
+                  size: 'normal',
+                }}
+              />
+            </div>
+
+            <p className="text-xs text-zinc-500 mt-8">
+              验证通过后将自动为您提交申请
+            </p>
+          </motion.div>
+        </div>,
+        document.body
+      )}
 
       {/* Voucher Modal */}
       {voucher && createPortal(
