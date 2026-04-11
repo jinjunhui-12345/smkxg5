@@ -4,27 +4,31 @@ import { ArrowUpRight } from 'lucide-react';
 const exhibits = [
   {
     id: 1,
-    title: '人体解剖学',
-    category: '基础医学',
+    title: '线上展馆',
+    category: '全景体验',
     image: 'https://images.unsplash.com/photo-1559757175-5700dde675bc?q=80&w=2071&auto=format&fit=crop',
+    link: 'https://www.720yuntu.com/720v2/player/269564',
   },
   {
     id: 2,
-    title: '病理标本',
-    category: '临床医学',
+    title: '解剖图册',
+    category: '专业图解',
     image: 'https://images.unsplash.com/photo-1582719508461-905c673771fd?q=80&w=2025&auto=format&fit=crop',
+    link: '#', // 预留跳转链接输入位置
   },
   {
     id: 3,
-    title: '基因组学',
-    category: '前沿科学',
+    title: '标本查阅',
+    category: '数字档案',
     image: 'https://images.unsplash.com/photo-1620641788421-7a1c342ea42e?q=80&w=1974&auto=format&fit=crop',
+    link: '#',
   },
   {
     id: 4,
-    title: '医药文化',
-    category: '现代医学',
+    title: '科普合集',
+    category: '医学科普',
     image: 'https://images.unsplash.com/photo-1512069772995-ec65ed45afd6?q=80&w=1974&auto=format&fit=crop',
+    link: '#',
   },
 ];
 
@@ -55,29 +59,20 @@ export default function Exhibition() {
               云端漫步
             </motion.h3>
           </motion.div>
-          <motion.a
-            initial={{ opacity: 0, x: -20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            href="https://www.720yuntu.com/720v2/player/269564"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="group flex items-center gap-2 text-emerald-400 hover:text-emerald-300 transition-all duration-300 hover:-translate-y-1"
-          >
-            <span className="font-medium">进入全景展厅</span>
-            <ArrowUpRight className="w-5 h-5 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
-          </motion.a>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {exhibits.map((exhibit, index) => (
-            <motion.div
+            <motion.a
               key={exhibit.id}
+              href={exhibit.link}
+              target={exhibit.link !== '#' ? "_blank" : undefined}
+              rel={exhibit.link !== '#' ? "noopener noreferrer" : undefined}
               initial={{ opacity: 0, y: 50 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: '-50px' }}
               transition={{ duration: 0.8, delay: index * 0.15, ease: [0.16, 1, 0.3, 1] }}
-              className="group relative h-[400px] md:h-[500px] rounded-3xl overflow-hidden cursor-pointer"
+              className="group relative h-[400px] md:h-[500px] rounded-3xl overflow-hidden cursor-pointer block"
             >
               <img
                 src={exhibit.image}
@@ -100,7 +95,7 @@ export default function Exhibition() {
                   </div>
                 </div>
               </div>
-            </motion.div>
+            </motion.a>
           ))}
         </div>
       </div>

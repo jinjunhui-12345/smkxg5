@@ -1,19 +1,36 @@
-import { motion, useScroll, useTransform } from 'motion/react';
-import { ArrowUpRight } from 'lucide-react';
-import { useRef } from 'react';
+import { motion } from 'motion/react';
+import { ArrowUpRight, ChevronLeft, ChevronRight } from 'lucide-react';
+import { useState, useEffect, useCallback } from 'react';
+
+const aboutImages = [
+  'https://lsmdescription.pages.dev/photo/img001.jpg',
+  'https://lsmdescription.pages.dev/photo/img002.jpg',
+  'https://lsmdescription.pages.dev/photo/img003.jpg',
+  'https://lsmdescription.pages.dev/photo/img004.jpg',
+  'https://lsmdescription.pages.dev/photo/img005.jpg',
+];
 
 export default function About() {
-  const ref = useRef(null);
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ['start end', 'end start'],
-  });
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [direction, setDirection] = useState(0);
 
-  const y1 = useTransform(scrollYProgress, [0, 1], [0, -100]);
-  const y2 = useTransform(scrollYProgress, [0, 1], [0, 100]);
+  const nextImage = useCallback(() => {
+    setDirection(1);
+    setCurrentIndex((prev) => (prev + 1) % aboutImages.length);
+  }, []);
+
+  const prevImage = useCallback(() => {
+    setDirection(-1);
+    setCurrentIndex((prev) => (prev - 1 + aboutImages.length) % aboutImages.length);
+  }, []);
+
+  useEffect(() => {
+    const timer = setInterval(nextImage, 5000);
+    return () => clearInterval(timer);
+  }, [nextImage]);
 
   return (
-    <section id="about" ref={ref} className="relative py-32 bg-zinc-950 text-white overflow-hidden">
+    <section id="about" className="relative py-32 bg-zinc-950 text-white overflow-hidden">
       <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
         {/* Left: Text Content */}
         <div className="flex flex-col justify-center">
@@ -67,41 +84,128 @@ export default function About() {
           </motion.div>
         </div>
 
-        {/* Right: Images Parallax */}
-        <div className="relative h-[600px] w-full flex items-center justify-center">
-          <motion.div
-            style={{ y: y1 }}
-            initial={{ opacity: 0, scale: 0.8 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true, margin: '-100px' }}
-            transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-            className="absolute left-0 top-10 w-2/3 h-2/3 rounded-2xl overflow-hidden shadow-2xl z-10"
-          >
-            <img
-              src="https://images.unsplash.com/photo-1579684385127-1ef15d508118?q=80&w=1780&auto=format&fit=crop"
-              alt="Medical equipment"
-              className="w-full h-full object-cover"
-              referrerPolicy="no-referrer"
-            />
-            <div className="absolute inset-0 bg-black/20" />
-          </motion.div>
+        {/* Right: Staggered Layered Image Display */}
+        <div className="relative h-[450px] md:h-[550px] w-full flex items-center justify-center lg:-mt-12">
+          <div className="relative w-full h-full flex items-center justify-center">
+            {aboutImages.map((img, index) => {
+              // Calculate relative position to current index
+              const total = aboutImages.length;
+              const offset = (index - currentIndex + total) % total;
+              
+              // Define positions for a staggered, layered look
+              let x: string | number = 0;
+              let y: string | number = 0;
+              let scale = 0.5;
+              let zIndex = 0;
+              let opacity = 0;
+              let rotate = 0;
 
-          <motion.div
-            style={{ y: y2 }}
-            initial={{ opacity: 0, scale: 0.8 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true, margin: '-100px' }}
-            transition={{ duration: 1, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-            className="absolute right-0 bottom-10 w-1/2 h-1/2 rounded-2xl overflow-hidden shadow-2xl z-20"
-          >
-            <img
-              src="https://images.unsplash.com/photo-1576086213369-97a306d36557?q=80&w=2070&auto=format&fit=crop"
-              alt="Medical science detail"
-              className="w-full h-full object-cover"
-              referrerPolicy="no-referrer"
-            />
-            <div className="absolute inset-0 bg-emerald-500/10 mix-blend-overlay" />
-          </motion.div>
+              if (offset === 0) { // Active
+                x = 0;
+                y = 0;
+                scale = 1;
+                zIndex = 30;
+                opacity = 1;
+                rotate = 0;
+              } else if (offset === 1) { // Next (Right)
+                x = '30%';
+                y = 50;
+                scale = 0.85;
+                zIndex = 20;
+                opacity = 0.4;
+                rotate = 10;
+              } else if (offset === total - 1) { // Prev (Left)
+                x = '-30%';
+                y = 50;
+                scale = 0.85;
+                zIndex = 20;
+                opacity = 0.4;
+                rotate = -10;
+              } else { // Others (hidden)
+                x = offset < total / 2 ? '60%' : '-60%';
+                y = 120;
+                scale = 0.7;
+                zIndex = 10;
+                opacity = 0;
+                rotate = offset < total / 2 ? 20 : -20;
+              }
+
+              return (
+                <motion.div
+                  key={index}
+                  style={{ originY: 1 }} // Rotate and scale from the bottom
+                  animate={{
+                    x,
+                    y,
+                    scale,
+                    zIndex,
+                    opacity,
+                    rotate,
+                  }}
+                  transition={{
+                    type: "spring",
+                    stiffness: 260,
+                    damping: 25
+                  }}
+                  className="absolute w-[75%] h-[65%] md:w-[380px] md:h-[480px] rounded-3xl overflow-hidden shadow-2xl cursor-pointer bottom-0"
+                  onClick={() => {
+                    if (offset !== 0) {
+                      setDirection(offset === total - 1 ? -1 : 1);
+                      setCurrentIndex(index);
+                    }
+                  }}
+                >
+                  <img
+                    src={img}
+                    alt={`Medical science ${index + 1}`}
+                    className="w-full h-full object-cover"
+                    referrerPolicy="no-referrer"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+                  
+                  {/* Glassmorphism overlay on non-active images */}
+                  {offset !== 0 && (
+                    <div className="absolute inset-0 bg-black/20 backdrop-blur-[2px] transition-opacity duration-500" />
+                  )}
+                </motion.div>
+              );
+            })}
+
+            {/* Navigation Controls */}
+            <div className="absolute -bottom-12 left-1/2 -translate-x-1/2 flex items-center gap-8 z-40">
+              <button
+                onClick={prevImage}
+                className="p-3 rounded-full bg-white/5 border border-white/10 text-white hover:bg-emerald-500 hover:text-black transition-all duration-300"
+              >
+                <ChevronLeft className="w-6 h-6" />
+              </button>
+              
+              <div className="flex gap-2">
+                {aboutImages.map((_, index) => (
+                  <button
+                    key={index}
+                    onClick={() => {
+                      setDirection(index > currentIndex ? 1 : -1);
+                      setCurrentIndex(index);
+                    }}
+                    className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                      index === currentIndex ? 'w-8 bg-emerald-400' : 'bg-white/20 hover:bg-white/40'
+                    }`}
+                  />
+                ))}
+              </div>
+
+              <button
+                onClick={nextImage}
+                className="p-3 rounded-full bg-white/5 border border-white/10 text-white hover:bg-emerald-500 hover:text-black transition-all duration-300"
+              >
+                <ChevronRight className="w-6 h-6" />
+              </button>
+            </div>
+          </div>
+
+          {/* Background Decorative Circles */}
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-emerald-500/5 rounded-full blur-3xl -z-10" />
         </div>
       </div>
     </section>

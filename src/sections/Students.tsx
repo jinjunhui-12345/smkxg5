@@ -59,7 +59,7 @@ export default function Students() {
         </motion.div>
       </div>
 
-      <div className="flex gap-6 md:gap-8 px-6 lg:px-[calc((100vw-80rem)/2+1.5rem)] overflow-x-auto snap-x snap-mandatory pb-12 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+      <div className="flex gap-6 md:gap-8 px-6 lg:px-[calc((100vw-80rem)/2+1.5rem)] overflow-x-auto snap-x snap-mandatory pb-12 custom-scrollbar">
         {studentsData.map((student, index) => (
           <motion.div
             key={student.id}

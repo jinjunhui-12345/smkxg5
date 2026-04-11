@@ -1,6 +1,13 @@
 import { motion, useScroll, useTransform } from 'motion/react';
 import { ArrowDown } from 'lucide-react';
 
+const navLinks = [
+  { name: '展馆介绍', href: '#about' },
+  { name: '学生风采', href: '#students' },
+  { name: '线上展馆', href: '#exhibition' },
+  { name: '展馆预约', href: '#reservation' },
+];
+
 export default function Hero() {
   const { scrollY } = useScroll();
   const y = useTransform(scrollY, [0, 1000], [0, 300]);
@@ -39,27 +46,48 @@ export default function Hero() {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
+          className="flex flex-col items-center"
         >
-          <p className="text-xl md:text-2xl text-white/70 max-w-2xl font-light tracking-wide">
+          <p className="text-xl md:text-2xl text-white/70 max-w-2xl font-light tracking-wide mb-12">
             探索生命的奥秘，感知医学的温度。
             <br className="hidden md:block" />
             Rethink. Reimagine. Redo.
           </p>
-        </motion.div>
 
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1, delay: 1 }}
-          className="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-4"
-        >
-          <span className="text-xs uppercase tracking-[0.2em] text-white/50">Scroll to Explore</span>
           <motion.div
-            animate={{ y: [0, 10, 0] }}
-            transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
-            className="w-8 h-12 rounded-full border border-white/20 flex items-start justify-center p-2"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 1, delay: 1 }}
+            className="flex flex-col items-center gap-4"
           >
-            <motion.div className="w-1 h-2 bg-white rounded-full" />
+            <span className="text-xs uppercase tracking-[0.2em] text-white/50">Scroll to Explore</span>
+            <motion.div
+              animate={{ y: [0, 10, 0] }}
+              transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
+              className="w-8 h-12 rounded-full border border-white/20 flex items-start justify-center p-2"
+            >
+              <motion.div className="w-1 h-2 bg-white rounded-full" />
+            </motion.div>
+
+            {/* Hero Navigation Links */}
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1, delay: 1.2 }}
+              className="flex flex-wrap justify-center items-center gap-4 md:gap-6 mt-12"
+            >
+              {navLinks.map((link) => (
+                <motion.a
+                  key={link.name}
+                  href={link.href}
+                  whileHover={{ scale: 1.05, backgroundColor: "rgba(255, 255, 255, 0.05)" }}
+                  whileTap={{ scale: 0.95 }}
+                  className="px-6 py-3 rounded-full border border-white/20 text-base md:text-lg font-medium text-white/90 hover:text-emerald-400 hover:border-emerald-500/50 transition-colors tracking-wider flex items-center gap-2"
+                >
+                  {link.name}
+                </motion.a>
+              ))}
+            </motion.div>
           </motion.div>
         </motion.div>
       </div>

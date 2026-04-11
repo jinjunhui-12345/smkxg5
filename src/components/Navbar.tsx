@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { createPortal } from 'react-dom';
-import { motion, useScroll, useMotionValueEvent } from 'motion/react';
+import { motion, useScroll, useMotionValueEvent, AnimatePresence } from 'motion/react';
 import { Menu, X, Lock, ArrowRight } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
@@ -53,7 +53,7 @@ export default function Navbar() {
     } else {
       setHidden(false);
     }
-    setIsScrolled(latest > 50);
+    setIsScrolled(latest > window.innerHeight * 0.8);
   });
 
   return (
@@ -75,15 +75,26 @@ export default function Navbar() {
 
         {/* Desktop Nav */}
         <div className="hidden md:flex items-center gap-8">
-          {navLinks.map((link) => (
-            <a
-              key={link.name}
-              href={link.href}
-              className="text-sm font-medium text-white/80 hover:text-white transition-colors"
-            >
-              {link.name}
-            </a>
-          ))}
+          <AnimatePresence>
+            {isScrolled && (
+              <motion.div 
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 20 }}
+                className="flex items-center gap-8"
+              >
+                {navLinks.map((link) => (
+                  <a
+                    key={link.name}
+                    href={link.href}
+                    className="text-sm font-medium text-white/80 hover:text-white transition-colors"
+                  >
+                    {link.name}
+                  </a>
+                ))}
+              </motion.div>
+            )}
+          </AnimatePresence>
           <a
             href="#reservation"
             className="px-5 py-2 text-sm font-medium bg-white text-black rounded-full hover:bg-emerald-400 hover:text-black transition-colors"
