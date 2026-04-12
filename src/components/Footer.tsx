@@ -14,7 +14,7 @@ export default function Footer() {
           <a href="#" className="text-2xl font-bold tracking-tighter text-white">
             LSM<span className="text-emerald-400">.</span>
           </a>
-          <p className="text-sm">生命科学馆在线门户网站</p>
+          <p className="text-sm">生命科学馆官方网站</p>
         </div>
         
         <div className="flex items-center gap-6 text-sm">

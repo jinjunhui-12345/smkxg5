@@ -56,15 +56,6 @@ export default function About() {
               variants={{ hidden: { opacity: 0, y: 30 }, visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } } }}
               className="mb-8"
             >
-              <a 
-                href="https://lsmdescription.pages.dev/" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="group inline-flex items-center gap-2 text-emerald-400 hover:text-emerald-300 font-medium mb-4 transition-all duration-300 hover:-translate-y-1"
-              >
-                <span>展馆详细介绍</span>
-                <ArrowUpRight className="w-5 h-5 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
-              </a>
               <h3 className="text-4xl md:text-6xl font-bold tracking-tight leading-[1.1]">
                 跨越时空的<br />医学对话
               </h3>
@@ -77,10 +68,24 @@ export default function About() {
             </motion.p>
             <motion.p 
               variants={{ hidden: { opacity: 0, y: 30 }, visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } } }}
-              className="text-lg text-zinc-400 leading-relaxed max-w-xl"
+              className="text-lg text-zinc-400 leading-relaxed max-w-xl mb-10"
             >
               馆内设有基础医学、临床医学、预防医学等多个核心展区，通过沉浸式互动体验，让每一位参观者都能深刻理解生命的价值与医学的使命。
             </motion.p>
+
+            <motion.div
+              variants={{ hidden: { opacity: 0, y: 30 }, visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } } }}
+            >
+              <a 
+                href="https://lsmdescription.pages.dev/" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="group inline-flex items-center gap-3 px-8 py-4 bg-emerald-500 text-black rounded-full font-bold text-lg hover:bg-emerald-400 transition-all duration-300 hover:scale-105 hover:shadow-[0_0_20px_rgba(16,185,129,0.4)]"
+              >
+                <span>探索展馆详情</span>
+                <ArrowUpRight className="w-6 h-6 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
+              </a>
+            </motion.div>
           </motion.div>
         </div>
 
@@ -134,6 +139,17 @@ export default function About() {
                 <motion.div
                   key={index}
                   style={{ originY: 1 }} // Rotate and scale from the bottom
+                  drag={offset === 0 ? "x" : false} // Only active image is draggable
+                  dragConstraints={{ left: 0, right: 0 }}
+                  dragElastic={0.2}
+                  onDragEnd={(_, info) => {
+                    const swipeThreshold = 50;
+                    if (info.offset.x < -swipeThreshold) {
+                      nextImage();
+                    } else if (info.offset.x > swipeThreshold) {
+                      prevImage();
+                    }
+                  }}
                   animate={{
                     x,
                     y,
@@ -147,7 +163,7 @@ export default function About() {
                     stiffness: 260,
                     damping: 25
                   }}
-                  className="absolute w-[75%] h-[65%] md:w-[380px] md:h-[480px] rounded-3xl overflow-hidden shadow-2xl cursor-pointer bottom-0"
+                  className="absolute w-[75%] h-[65%] md:w-[380px] md:h-[480px] rounded-3xl overflow-hidden shadow-2xl cursor-pointer bottom-0 touch-none"
                   onClick={() => {
                     if (offset !== 0) {
                       setDirection(offset === total - 1 ? -1 : 1);

@@ -14,21 +14,21 @@ const exhibits = [
     title: '解剖图册',
     category: '专业图解',
     image: 'https://images.unsplash.com/photo-1582719508461-905c673771fd?q=80&w=2025&auto=format&fit=crop',
-    link: '#', // 预留跳转链接输入位置
+    link: '/pdf.html',
   },
   {
     id: 3,
     title: '标本查阅',
     category: '数字档案',
     image: 'https://images.unsplash.com/photo-1620641788421-7a1c342ea42e?q=80&w=1974&auto=format&fit=crop',
-    link: '#',
+    link: 'https://lsmmodeldirectory.pages.dev/',
   },
   {
     id: 4,
     title: '科普合集',
     category: '医学科普',
     image: 'https://images.unsplash.com/photo-1512069772995-ec65ed45afd6?q=80&w=1974&auto=format&fit=crop',
-    link: '#',
+    link: 'https://mp.weixin.qq.com/mp/appmsgalbum?__biz=Mzg5Nzg2MjA0NA==&action=getalbum&album_id=2604116913841225730&scene=126&sessionid=1775975087810#wechat_redirect',
   },
 ];
 
@@ -63,16 +63,13 @@ export default function Exhibition() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {exhibits.map((exhibit, index) => (
-            <motion.a
+            <motion.div
               key={exhibit.id}
-              href={exhibit.link}
-              target={exhibit.link !== '#' ? "_blank" : undefined}
-              rel={exhibit.link !== '#' ? "noopener noreferrer" : undefined}
               initial={{ opacity: 0, y: 50 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: '-50px' }}
               transition={{ duration: 0.8, delay: index * 0.15, ease: [0.16, 1, 0.3, 1] }}
-              className="group relative h-[400px] md:h-[500px] rounded-3xl overflow-hidden cursor-pointer block"
+              className="group relative h-[400px] md:h-[500px] rounded-3xl overflow-hidden block"
             >
               <img
                 src={exhibit.image}
@@ -83,19 +80,25 @@ export default function Exhibition() {
               <div className="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-colors duration-500" />
               
               <div className="absolute inset-0 p-8 flex flex-col justify-end">
-                <div className="translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
+                <div className="translate-y-0 transition-transform duration-500">
                   <span className="inline-block px-3 py-1 bg-white/10 backdrop-blur-md rounded-full text-xs font-medium text-white/90 mb-4">
                     {exhibit.category}
                   </span>
                   <div className="flex items-center justify-between">
                     <h4 className="text-3xl font-bold text-white">{exhibit.title}</h4>
-                    <div className="w-12 h-12 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                      <ArrowUpRight className="w-6 h-6 text-white" />
-                    </div>
+                    <a
+                      href={exhibit.link}
+                      target={exhibit.link !== '#' ? "_blank" : undefined}
+                      rel={exhibit.link !== '#' ? "noopener noreferrer" : undefined}
+                      className="flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-md rounded-full hover:bg-emerald-500 hover:text-black transition-all duration-300 group/btn"
+                    >
+                      <span className="text-xs font-medium">点击跳转</span>
+                      <ArrowUpRight className="w-5 h-5 transition-transform group-hover/btn:translate-x-1 group-hover/btn:-translate-y-1" />
+                    </a>
                   </div>
                 </div>
               </div>
-            </motion.a>
+            </motion.div>
           ))}
         </div>
       </div>
