@@ -80,10 +80,10 @@ export default function About() {
                 href="https://lsmdescription.pages.dev/" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="group inline-flex items-center gap-3 px-8 py-4 bg-emerald-500 text-black rounded-full font-bold text-lg hover:bg-emerald-400 transition-all duration-300 hover:scale-105 hover:shadow-[0_0_20px_rgba(16,185,129,0.4)]"
+                className="group inline-flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-md rounded-full hover:bg-emerald-500 hover:text-black transition-all duration-300 group/btn"
               >
-                <span>探索展馆详情</span>
-                <ArrowUpRight className="w-6 h-6 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
+                <span className="text-xs font-medium">探索展馆详情</span>
+                <ArrowUpRight className="w-5 h-5 transition-transform group-hover/btn:translate-x-1 group-hover/btn:-translate-y-1" />
               </a>
             </motion.div>
           </motion.div>
