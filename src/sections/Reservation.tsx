@@ -8,7 +8,9 @@ import { Turnstile, type TurnstileInstance } from '@marsidev/react-turnstile';
 export default function Reservation() {
   const [formData, setFormData] = useState({
     name: '',
-    identity: '',
+    identityType: '',
+    identityOther: '',
+    peopleCount: '',
     phone: '',
     visit_date: '',
     visit_time: '',
@@ -22,16 +24,88 @@ export default function Reservation() {
   const [showTurnstileModal, setShowTurnstileModal] = useState(false);
   const turnstileRef = useRef<TurnstileInstance>(null);
 
+  const getByteLength = (str: string) => new TextEncoder().encode(str).length;
+
+  const timeOptions = [];
+  for (let h = 8; h <= 21; h++) {
+    timeOptions.push(`${h.toString().padStart(2, '0')}:00`);
+    if (h < 21) {
+      timeOptions.push(`${h.toString().padStart(2, '0')}:30`);
+    }
+  }
+
+  const validatePhone = (phone: string) => {
+    // Comprehensive regex based on the provided list
+    // 134(0-8), 135-139, 147, 148, 150-152, 157-159, 172, 178, 182-184, 187, 188, 195, 197, 198 (CMCC)
+    // 130-132, 145, 155, 156, 166, 171, 175, 176, 185, 186, 196 (Unicom)
+    // 133, 149, 153, 173, 177, 180, 181, 189, 190, 191, 193, 199 (Telecom)
+    // 192 (Broadnet), 161, 162, 165, 167, 170, 171 (MVNO)
+    const regex = /^1(34[0-8]\d{7}|(3[0-35-9]|4[5789]|5[0-35-9]|6[12567]|7[0-35-8]|8[0-9]|9[0-35-9])\d{8})$/;
+    return regex.test(phone);
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!formData.name || !formData.identity || !formData.phone || !formData.visit_date || !formData.visit_time) {
-      alert('请填写必填项（姓名、身份/人数、电话、日期、时间）');
+    
+    // 1. Name validation
+    if (!formData.name) {
+      alert('请输入姓名');
+      return;
+    }
+    if (getByteLength(formData.name) > 12) {
+      alert('姓名长度不能超过12个字节');
+      return;
+    }
+    if (!/^[a-zA-Z\u4e00-\u9fa5]+$/.test(formData.name)) {
+      alert('姓名只能包含中文或英文');
       return;
     }
 
-    const phoneRegex = /^1\d{10}$/;
-    if (!phoneRegex.test(formData.phone)) {
-      alert('请输入正确的11位手机号码（以1开头）');
+    // 2. Identity validation
+    if (!formData.identityType) {
+      alert('请选择身份');
+      return;
+    }
+    if (formData.identityType === '其他' && !formData.identityOther) {
+      alert('请输入您的身份');
+      return;
+    }
+
+    // 3. People count validation
+    const count = parseInt(formData.peopleCount);
+    if (isNaN(count) || count < 1 || count > 50) {
+      alert('人数限制在1-50人');
+      return;
+    }
+
+    // 4. Date validation
+    if (!formData.visit_date) {
+      alert('请选择预约日期');
+      return;
+    }
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const selectedDate = new Date(formData.visit_date);
+    if (selectedDate < today) {
+      alert('预约日期不能早于当前日期');
+      return;
+    }
+
+    // 5. Time validation
+    if (!formData.visit_time) {
+      alert('请选择预约时间');
+      return;
+    }
+
+    // 6. Phone validation
+    if (!validatePhone(formData.phone)) {
+      alert('请输入正确的11位手机号码（需符合国内号段规则）');
+      return;
+    }
+
+    // 7. Remarks validation
+    if (formData.remarks && getByteLength(formData.remarks) > 200) {
+      alert('备注信息不能超过200个字节');
       return;
     }
 
@@ -47,11 +121,31 @@ export default function Reservation() {
   const submitForm = async () => {
     setIsSubmitting(true);
     try {
-      const savedData = await dbService.saveReservation(formData);
+      const finalIdentity = `${formData.identityType === '其他' ? formData.identityOther : formData.identityType}/${formData.peopleCount}人`;
+      
+      const submissionData = {
+        name: formData.name,
+        identity: finalIdentity,
+        phone: formData.phone,
+        visit_date: formData.visit_date,
+        visit_time: formData.visit_time,
+        remarks: formData.remarks
+      };
+
+      const savedData = await dbService.saveReservation(submissionData);
       setIsSuccess(true);
       setVoucher(savedData);
       setLastSubmittedVoucher(savedData);
-      setFormData({ name: '', identity: '', phone: '', visit_date: '', visit_time: '', remarks: '' });
+      setFormData({ 
+        name: '', 
+        identityType: '', 
+        identityOther: '', 
+        peopleCount: '', 
+        phone: '', 
+        visit_date: '', 
+        visit_time: '', 
+        remarks: '' 
+      });
       setTurnstileToken(null);
       turnstileRef.current?.reset();
       setShowTurnstileModal(false);
@@ -158,23 +252,86 @@ export default function Reservation() {
                   <input
                     type="text"
                     required
+                    maxLength={12}
                     value={formData.name}
                     onChange={(e) => setFormData({...formData, name: e.target.value})}
-                    className="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-emerald-500/50 transition-all"
-                    placeholder="请输入您的姓名"
+                    className="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-emerald-500/50 transition-all placeholder:text-zinc-600"
+                    placeholder="请输入你的姓名"
                   />
                 </motion.div>
                 <motion.div variants={itemVariants} className="space-y-2">
                   <label className="text-sm font-medium text-zinc-400 flex items-center gap-2">
-                    <Users className="w-4 h-4" /> 身份/人数 <span className="text-emerald-500">*</span>
+                    <Users className="w-4 h-4" /> 身份 <span className="text-emerald-500">*</span>
+                  </label>
+                  <div className="relative group">
+                    <select
+                      required
+                      value={formData.identityType}
+                      onChange={(e) => setFormData({...formData, identityType: e.target.value})}
+                      className="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-emerald-500/50 transition-all appearance-none cursor-pointer hover:border-white/20"
+                    >
+                      <option value="" disabled className="bg-zinc-900">请选择身份</option>
+                      <option value="校内团体" className="bg-zinc-900">校内团体</option>
+                      <option value="社会团体" className="bg-zinc-900">社会团体</option>
+                      <option value="校内老师" className="bg-zinc-900">校内老师</option>
+                      <option value="校内学生" className="bg-zinc-900">校内学生</option>
+                      <option value="校外学生" className="bg-zinc-900">校外学生</option>
+                      <option value="社会人员" className="bg-zinc-900">社会人员</option>
+                      <option value="其他" className="bg-zinc-900">其他请输入</option>
+                    </select>
+                    <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-zinc-500 group-hover:text-emerald-400 transition-colors">
+                      <List className="w-4 h-4" />
+                    </div>
+                  </div>
+                </motion.div>
+              </div>
+
+              {formData.identityType === '其他' && (
+                <motion.div 
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: 'auto' }}
+                  className="space-y-2"
+                >
+                  <label className="text-sm font-medium text-zinc-400 flex items-center gap-2">
+                    <List className="w-4 h-4" /> 其他身份说明 <span className="text-emerald-500">*</span>
                   </label>
                   <input
                     type="text"
                     required
-                    value={formData.identity}
-                    onChange={(e) => setFormData({...formData, identity: e.target.value})}
+                    value={formData.identityOther}
+                    onChange={(e) => setFormData({...formData, identityOther: e.target.value})}
                     className="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-emerald-500/50 transition-all"
-                    placeholder="例如：学生/3人"
+                    placeholder="请输入您的身份"
+                  />
+                </motion.div>
+              )}
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <motion.div variants={itemVariants} className="space-y-2">
+                  <label className="text-sm font-medium text-zinc-400 flex items-center gap-2">
+                    <Users className="w-4 h-4" /> 参观人数 <span className="text-emerald-500">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    inputMode="numeric"
+                    required
+                    value={formData.peopleCount}
+                    onChange={(e) => setFormData({...formData, peopleCount: e.target.value.replace(/\D/g, '')})}
+                    className="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-emerald-500/50 transition-all placeholder:text-zinc-600 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                    placeholder="请输入人数"
+                  />
+                </motion.div>
+                <motion.div variants={itemVariants} className="space-y-2">
+                  <label className="text-sm font-medium text-zinc-400 flex items-center gap-2">
+                    <Phone className="w-4 h-4" /> 联系电话 <span className="text-emerald-500">*</span>
+                  </label>
+                  <input
+                    type="tel"
+                    required
+                    value={formData.phone}
+                    onChange={(e) => setFormData({...formData, phone: e.target.value.replace(/\D/g, '').slice(0, 11)})}
+                    className="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-emerald-500/50 transition-all"
+                    placeholder="请输入11位手机号码"
                   />
                 </motion.div>
               </div>
@@ -187,6 +344,7 @@ export default function Reservation() {
                   <input
                     type="date"
                     required
+                    min={new Date().toISOString().split('T')[0]}
                     value={formData.visit_date}
                     onChange={(e) => setFormData({...formData, visit_date: e.target.value})}
                     className="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-emerald-500/50 transition-all [color-scheme:dark]"
@@ -196,30 +354,24 @@ export default function Reservation() {
                   <label className="text-sm font-medium text-zinc-400 flex items-center gap-2">
                     <Clock className="w-4 h-4" /> 预约时间 <span className="text-emerald-500">*</span>
                   </label>
-                  <input
-                    type="time"
-                    required
-                    value={formData.visit_time}
-                    onChange={(e) => setFormData({...formData, visit_time: e.target.value})}
-                    className="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-emerald-500/50 transition-all [color-scheme:dark]"
-                  />
+                  <div className="relative group">
+                    <select
+                      required
+                      value={formData.visit_time}
+                      onChange={(e) => setFormData({...formData, visit_time: e.target.value})}
+                      className="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-emerald-500/50 transition-all appearance-none cursor-pointer hover:border-white/20"
+                    >
+                      <option value="" disabled className="bg-zinc-900">请选择时间</option>
+                      {timeOptions.map(time => (
+                        <option key={time} value={time} className="bg-zinc-900">{time}</option>
+                      ))}
+                    </select>
+                    <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-zinc-500 group-hover:text-emerald-400 transition-colors">
+                      <Clock className="w-4 h-4" />
+                    </div>
+                  </div>
                 </motion.div>
               </div>
-
-              <motion.div variants={itemVariants} className="space-y-2">
-                <label className="text-sm font-medium text-zinc-400 flex items-center gap-2">
-                  <Phone className="w-4 h-4" / > 联系电话 <span className="text-emerald-500">*</span>
-                </label>
-                <input
-                  type="tel"
-                  required
-                  value={formData.phone}
-                  onChange={(e) => setFormData({...formData, phone: e.target.value.replace(/\D/g, '').slice(0, 11)})}
-                  className="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-emerald-500/50 transition-all"
-                  placeholder="请输入11位手机号码"
-                  pattern="1[0-9]{10}"
-                />
-              </motion.div>
 
               <motion.div variants={itemVariants} className="space-y-2">
                 <label className="text-sm font-medium text-zinc-400">备注信息 (选填)</label>
@@ -228,7 +380,7 @@ export default function Reservation() {
                   value={formData.remarks}
                   onChange={(e) => setFormData({...formData, remarks: e.target.value})}
                   className="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-emerald-500/50 transition-all resize-none"
-                  placeholder="如有特殊需求请在此说明..."
+                  placeholder="限200字节，如有特殊需求请在此说明..."
                 />
               </motion.div>
 
