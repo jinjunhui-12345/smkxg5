@@ -1,5 +1,6 @@
 import { motion } from 'motion/react';
 import { ArrowUpRight } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const exhibits = [
   {
@@ -8,13 +9,15 @@ const exhibits = [
     category: '全景体验',
     image: 'https://images.unsplash.com/photo-1559757175-5700dde675bc?q=80&w=2071&auto=format&fit=crop',
     link: 'https://www.720yuntu.com/720v2/player/269564',
+    isInternal: false,
   },
   {
     id: 2,
     title: '解剖图册',
     category: '专业图解',
     image: 'https://images.unsplash.com/photo-1582719508461-905c673771fd?q=80&w=2025&auto=format&fit=crop',
-    link: '/pdf.html',
+    link: '/atlas',
+    isInternal: true,
   },
   {
     id: 3,
@@ -22,6 +25,7 @@ const exhibits = [
     category: '数字档案',
     image: 'https://images.unsplash.com/photo-1620641788421-7a1c342ea42e?q=80&w=1974&auto=format&fit=crop',
     link: 'https://lsmmodeldirectory.pages.dev/',
+    isInternal: false,
   },
   {
     id: 4,
@@ -29,6 +33,7 @@ const exhibits = [
     category: '医学科普',
     image: 'https://images.unsplash.com/photo-1512069772995-ec65ed45afd6?q=80&w=1974&auto=format&fit=crop',
     link: 'https://mp.weixin.qq.com/mp/appmsgalbum?__biz=Mzg5Nzg2MjA0NA==&action=getalbum&album_id=2604116913841225730&scene=126&sessionid=1775975087810#wechat_redirect',
+    isInternal: false,
   },
 ];
 
@@ -86,15 +91,25 @@ export default function Exhibition() {
                   </span>
                   <div className="flex items-center justify-between">
                     <h4 className="text-3xl font-bold text-white">{exhibit.title}</h4>
-                    <a
-                      href={exhibit.link}
-                      target={exhibit.link !== '#' ? "_blank" : undefined}
-                      rel={exhibit.link !== '#' ? "noopener noreferrer" : undefined}
-                      className="flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-md rounded-full hover:bg-emerald-500 hover:text-black transition-all duration-300 group/btn"
-                    >
-                      <span className="text-xs font-medium">点击跳转</span>
-                      <ArrowUpRight className="w-5 h-5 transition-transform group-hover/btn:translate-x-1 group-hover/btn:-translate-y-1" />
-                    </a>
+                    {exhibit.isInternal ? (
+                      <Link
+                        to={exhibit.link}
+                        className="flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-md rounded-full hover:bg-emerald-500 hover:text-black transition-all duration-300 group/btn"
+                      >
+                        <span className="text-xs font-medium">点击跳转</span>
+                        <ArrowUpRight className="w-5 h-5 transition-transform group-hover/btn:translate-x-1 group-hover/btn:-translate-y-1" />
+                      </Link>
+                    ) : (
+                      <a
+                        href={exhibit.link}
+                        target={exhibit.link !== '#' ? "_blank" : undefined}
+                        rel={exhibit.link !== '#' ? "noopener noreferrer" : undefined}
+                        className="flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-md rounded-full hover:bg-emerald-500 hover:text-black transition-all duration-300 group/btn"
+                      >
+                        <span className="text-xs font-medium">点击跳转</span>
+                        <ArrowUpRight className="w-5 h-5 transition-transform group-hover/btn:translate-x-1 group-hover/btn:-translate-y-1" />
+                      </a>
+                    )}
                   </div>
                 </div>
               </div>
