@@ -36,69 +36,71 @@ export default function PdfViewer() {
   return (
     <div className="min-h-screen bg-zinc-950 text-white flex flex-col">
       {/* Header */}
-      <header className="h-16 border-b border-white/10 flex items-center justify-between px-6 bg-zinc-900/50 backdrop-blur-md sticky top-0 z-50">
-        <div className="flex items-center gap-4">
+      <header className="h-16 border-b border-white/10 flex items-center justify-between px-4 md:px-6 bg-zinc-900/50 backdrop-blur-md sticky top-0 z-50">
+        <div className="flex items-center gap-2 md:gap-4 shrink-0">
           <Link 
             to="/" 
-            className="p-2 hover:bg-white/10 rounded-full transition-colors group"
+            className="p-1.5 md:p-2 hover:bg-white/10 rounded-full transition-colors group"
           >
-            <ChevronLeft className="w-6 h-6 text-zinc-400 group-hover:text-white transition-colors" />
+            <ChevronLeft className="w-5 h-5 md:w-6 md:h-6 text-zinc-400 group-hover:text-white transition-colors" />
           </Link>
-          <h1 className="text-lg font-bold tracking-tight">解剖图册 <span className="text-emerald-400">.</span></h1>
+          <h1 className="text-base md:text-lg font-bold tracking-tight whitespace-nowrap">
+            解剖图册<span className="text-emerald-400 ml-0.5">.</span>
+          </h1>
         </div>
 
         {/* Controls */}
-        <div className="flex items-center gap-2 md:gap-6 bg-zinc-800/50 px-4 py-1.5 rounded-full border border-white/5">
-          <div className="flex items-center gap-1 border-r border-white/10 pr-4 mr-2">
+        <div className="flex items-center gap-1 md:gap-4 bg-zinc-800/50 px-2 md:px-4 py-1.5 rounded-full border border-white/5 mx-2 overflow-hidden">
+          <div className="hidden sm:flex items-center gap-1 border-r border-white/10 pr-2 md:pr-4 mr-1 md:mr-2">
             <button 
               onClick={() => setScale(s => Math.max(0.5, s - 0.1))}
-              className="p-1.5 hover:bg-white/10 rounded-md transition-colors"
+              className="p-1 hover:bg-white/10 rounded-md transition-colors"
               title="缩小"
             >
-              <ZoomOut className="w-4 h-4" />
+              <ZoomOut className="w-3.5 h-3.5 md:w-4 md:h-4" />
             </button>
-            <span className="text-xs font-mono w-12 text-center">{Math.round(scale * 100)}%</span>
+            <span className="text-[10px] md:text-xs font-mono w-10 md:w-12 text-center whitespace-nowrap">{Math.round(scale * 100)}%</span>
             <button 
               onClick={() => setScale(s => Math.min(2.0, s + 0.1))}
-              className="p-1.5 hover:bg-white/10 rounded-md transition-colors"
+              className="p-1 hover:bg-white/10 rounded-md transition-colors"
               title="放大"
             >
-              <ZoomIn className="w-4 h-4" />
+              <ZoomIn className="w-3.5 h-3.5 md:w-4 md:h-4" />
             </button>
           </div>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-1 md:gap-3">
             <button
               disabled={pageNumber <= 1}
               onClick={() => setPageNumber(p => p - 1)}
-              className="p-1.5 hover:bg-white/10 disabled:opacity-30 disabled:hover:bg-transparent rounded-md transition-colors"
+              className="p-1 hover:bg-white/10 disabled:opacity-30 disabled:hover:bg-transparent rounded-md transition-colors"
             >
-              <ChevronLeft className="w-5 h-5" />
+              <ChevronLeft className="w-4 h-4 md:w-5 md:h-5" />
             </button>
-            <span className="text-xs font-medium">
-              第 {pageNumber} / {numPages || '--'} 页
+            <span className="text-[10px] md:text-xs font-medium whitespace-nowrap">
+              {pageNumber} / {numPages || '--'}
             </span>
             <button
               disabled={pageNumber >= (numPages || 0)}
               onClick={() => setPageNumber(p => p + 1)}
-              className="p-1.5 hover:bg-white/10 disabled:opacity-30 disabled:hover:bg-transparent rounded-md transition-colors"
+              className="p-1 hover:bg-white/10 disabled:opacity-30 disabled:hover:bg-transparent rounded-md transition-colors"
             >
-              <ChevronRight className="w-5 h-5" />
+              <ChevronRight className="w-4 h-4 md:w-5 md:h-5" />
             </button>
           </div>
 
           <a 
             href="/lsmbooks.pdf" 
             download 
-            className="hidden md:flex items-center gap-2 ml-4 pl-4 border-l border-white/10 text-emerald-400 hover:text-emerald-300 transition-colors"
+            className="hidden md:flex items-center gap-2 ml-2 md:ml-4 pl-2 md:pl-4 border-l border-white/10 text-emerald-400 hover:text-emerald-300 transition-colors"
           >
             <Download className="w-4 h-4" />
-            <span className="text-[10px] font-bold uppercase tracking-wider">下载</span>
+            <span className="text-[10px] font-bold uppercase tracking-wider whitespace-nowrap">下载</span>
           </a>
         </div>
 
-        <div className="hidden lg:block text-[10px] text-zinc-500 font-medium tracking-[0.2em] uppercase">
-          PDF.js Rendering
+        <div className="hidden xl:block text-[10px] text-zinc-500 font-medium tracking-[0.2em] uppercase whitespace-nowrap">
+          PDF.js Engine
         </div>
       </header>
 
