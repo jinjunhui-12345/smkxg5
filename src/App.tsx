@@ -9,6 +9,8 @@ import Home from './pages/Home';
 import Admin from './pages/Admin';
 
 const PdfViewer = lazy(() => import('./pages/PdfViewer'));
+const PdfViewerSub = lazy(() => import('./pages/PdfViewerSub'));
+const AtlasSelection = lazy(() => import('./pages/AtlasSelection'));
 
 export default function App() {
   return (
@@ -21,7 +23,9 @@ export default function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/admin" element={<Admin />} />
-          <Route path="/atlas" element={<PdfViewer />} />
+          <Route path="/atlas" element={<AtlasSelection />} />
+          <Route path="/atlas/main" element={<PdfViewer />} />
+          <Route path="/atlas/sub" element={<PdfViewerSub />} />
         </Routes>
       </Suspense>
     </BrowserRouter>

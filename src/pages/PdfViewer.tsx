@@ -16,6 +16,8 @@ export default function PdfViewer() {
   const [scale, setScale] = useState(1.0);
   const [containerWidth, setContainerWidth] = useState<number>(800);
 
+  const pdfFile = '/lsmbooks.pdf';
+
   function onDocumentLoadSuccess({ numPages }: { numPages: number }) {
     setNumPages(numPages);
   }
@@ -39,13 +41,13 @@ export default function PdfViewer() {
       <header className="h-16 border-b border-white/10 flex items-center justify-between px-4 md:px-6 bg-zinc-900/50 backdrop-blur-md sticky top-0 z-50">
         <div className="flex items-center gap-2 md:gap-4 shrink-0">
           <Link 
-            to="/" 
+            to="/atlas" 
             className="p-1.5 md:p-2 hover:bg-white/10 rounded-full transition-colors group"
           >
             <ChevronLeft className="w-5 h-5 md:w-6 md:h-6 text-zinc-400 group-hover:text-white transition-colors" />
           </Link>
           <h1 className="text-base md:text-lg font-bold tracking-tight whitespace-nowrap">
-            解剖图册<span className="text-emerald-400 ml-0.5">.</span>
+            展馆图册<span className="text-emerald-400 ml-0.5">.</span>
           </h1>
         </div>
 
@@ -90,7 +92,7 @@ export default function PdfViewer() {
           </div>
 
           <a 
-            href="/lsmbooks.pdf" 
+            href={pdfFile} 
             download 
             className="hidden md:flex items-center gap-2 ml-2 md:ml-4 pl-2 md:pl-4 border-l border-white/10 text-emerald-400 hover:text-emerald-300 transition-colors"
           >
@@ -113,7 +115,7 @@ export default function PdfViewer() {
           className="flex-1 flex justify-center items-start min-h-full"
         >
           <Document
-            file="/lsmbooks.pdf"
+            file={pdfFile}
             onLoadSuccess={onDocumentLoadSuccess}
             loading={
               <div className="flex flex-col items-center justify-center py-20 gap-4">
@@ -131,7 +133,7 @@ export default function PdfViewer() {
                   <p className="text-zinc-500 text-sm max-w-xs">请确保文件已正确上传至服务器，或尝试直接下载查看。</p>
                 </div>
                 <a 
-                  href="/lsmbooks.pdf" 
+                  href={pdfFile} 
                   target="_blank"
                   className="px-6 py-3 bg-white/5 border border-white/10 rounded-full hover:bg-white/10 transition-all text-sm"
                 >
