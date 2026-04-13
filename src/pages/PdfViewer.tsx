@@ -122,7 +122,7 @@ export default function PdfViewer() {
             loading={
               <div className="flex flex-col items-center justify-center py-20 gap-4">
                 <Loader2 className="w-10 h-10 text-emerald-500 animate-spin" />
-                <p className="text-zinc-500 text-sm animate-pulse">正在解析 PDF 资源...<br>文件较大，请耐心等待，推荐使用电脑端浏览。</></p>
+                <p className="text-zinc-500 text-sm animate-pulse">正在解析 PDF 资源...文件较大，请耐心等待，推荐使用电脑端浏览。</></p>
               </div>
             }
             error={
