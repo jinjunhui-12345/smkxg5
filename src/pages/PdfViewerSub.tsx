@@ -122,7 +122,7 @@ export default function PdfViewerSub() {
             loading={
               <div className="flex flex-col items-center justify-center py-20 gap-4">
                 <Loader2 className="w-10 h-10 text-emerald-500 animate-spin" />
-                <p className="text-zinc-500 text-sm animate-pulse">正在解析 PDF 资源...</p>
+                <p className="text-zinc-500 text-sm animate-pulse">正在解析 PDF 资源...<br>文件较大，请耐心等待，推荐使用电脑端浏览。</p>
               </div>
             }
             error={
@@ -162,7 +162,7 @@ export default function PdfViewerSub() {
         </motion.div>
         
         <footer className="py-8 text-center text-zinc-700 text-[10px] tracking-[0.4em] uppercase">
-          &copy; 2024 LSM Digital Anatomy Atlas
+          &copy; 2026 生命科学馆版权所有
         </footer>
       </main>
     </div>
