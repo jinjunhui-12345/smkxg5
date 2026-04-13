@@ -88,7 +88,7 @@ export default function AtlasSelection() {
       </main>
 
       <footer className="py-8 text-center text-zinc-600 text-[10px] tracking-[0.3em] uppercase">
-        &copy; 2024 LSM Digital Anatomy Atlas
+        &copy; 2026 生命科学馆版权所有
       </footer>
     </div>
   );

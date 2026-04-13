@@ -120,9 +120,12 @@ export default function PdfViewerSub() {
             file={pdfFile}
             onLoadSuccess={onDocumentLoadSuccess}
             loading={
-              <div className="flex flex-col items-center justify-center py-20 gap-4">
+              <div className="flex flex-col items-center justify-center py-20 gap-4 text-center">
                 <Loader2 className="w-10 h-10 text-emerald-500 animate-spin" />
-                <p className="text-zinc-500 text-sm animate-pulse">正在解析 PDF 资源...文件较大，请耐心等待，推荐使用电脑端浏览。</p>
+                <div className="space-y-2">
+                  <p className="text-zinc-500 text-sm animate-pulse font-medium">正在解析 PDF 资源...</p>
+                  <p className="text-zinc-600 text-xs animate-pulse">文件较大请耐心等待，推荐使用电脑端浏览。</p>
+                </div>
               </div>
             }
             error={
