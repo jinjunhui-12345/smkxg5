@@ -1,6 +1,7 @@
 import { motion } from 'motion/react';
 import { ChevronLeft, ArrowRight, BookOpen, BookCopy } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { useEffect } from 'react';
 
 const atlasOptions = [
   {
@@ -22,6 +23,10 @@ const atlasOptions = [
 ];
 
 export default function AtlasSelection() {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
     <div className="min-h-screen bg-zinc-950 text-white flex flex-col">
       {/* Header */}
@@ -33,7 +38,7 @@ export default function AtlasSelection() {
           >
             <ChevronLeft className="w-6 h-6 text-zinc-400 group-hover:text-white transition-colors" />
           </Link>
-          <h1 className="text-lg font-bold tracking-tight">解剖图册分发 <span className="text-emerald-400">.</span></h1>
+          <h1 className="text-lg font-bold tracking-tight">解剖图册 <span className="text-emerald-400">.</span></h1>
         </div>
       </header>
 

@@ -20,9 +20,11 @@ export default function PdfViewerSub() {
 
   function onDocumentLoadSuccess({ numPages }: { numPages: number }) {
     setNumPages(numPages);
+    setPageNumber(1);
   }
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     const updateWidth = () => {
       const container = document.getElementById('pdf-container');
       if (container) {
@@ -36,7 +38,7 @@ export default function PdfViewerSub() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-zinc-950 text-white flex flex-col">
+    <div className="min-h-screen bg-zinc-950 text-white flex flex-col overflow-hidden">
       {/* Header */}
       <header className="h-16 border-b border-white/10 flex items-center justify-between px-4 md:px-6 bg-zinc-900/50 backdrop-blur-md sticky top-0 z-50">
         <div className="flex items-center gap-2 md:gap-4 shrink-0">
@@ -147,8 +149,8 @@ export default function PdfViewerSub() {
                 pageNumber={pageNumber} 
                 scale={scale}
                 width={Math.min(containerWidth, 1200)}
-                renderAnnotationLayer={true}
-                renderTextLayer={true}
+                renderAnnotationLayer={false}
+                renderTextLayer={false}
                 loading={
                   <div className="bg-zinc-900 flex items-center justify-center" style={{ width: containerWidth, height: containerWidth * 1.4 }}>
                     <Loader2 className="w-8 h-8 text-emerald-500/50 animate-spin" />
