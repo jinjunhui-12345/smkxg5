@@ -6,32 +6,36 @@ const exhibits = [
   {
     id: 1,
     title: '线上展馆',
-    category: '全景体验',
-    image: 'https://images.unsplash.com/photo-1559757175-5700dde675bc?q=80&w=2071&auto=format&fit=crop',
+    category: '云览生命，触手可及',
+    description: '云端探秘生命馆，沉浸式解锁生命奥秘',
+    image: 'https://lsmdescription.pages.dev/photo/xszg.jpg',
     link: 'https://www.720yuntu.com/720v2/player/269564',
     isInternal: false,
   },
   {
     id: 2,
     title: '解剖图册',
-    category: '专业图解',
-    image: 'https://images.unsplash.com/photo-1582719508461-905c673771fd?q=80&w=2025&auto=format&fit=crop',
+    category: '匠心编著，图解生命',
+    description: '精编生命图鉴，专业解读人体结构',
+    image: 'https://lsmdescription.pages.dev/photo/jptc.png',
     link: '/atlas',
     isInternal: true,
   },
   {
     id: 3,
     title: '标本查阅',
-    category: '数字档案',
-    image: 'https://images.unsplash.com/photo-1620641788421-7a1c342ea42e?q=80&w=1974&auto=format&fit=crop',
+    category: '数字馆藏，精准检索',
+    description: '401个3D解剖模型，一键速查人体系统',
+    image: 'https://lsmdescription.pages.dev/photo/mxjs.png',
     link: 'https://lsmmodeldirectory.pages.dev/',
     isInternal: false,
   },
   {
     id: 4,
     title: '科普合集',
-    category: '医学科普',
-    image: 'https://images.unsplash.com/photo-1512069772995-ec65ed45afd6?q=80&w=1974&auto=format&fit=crop',
+    category: '科普赋能，智享科学',
+    description: '数字科普汇新知，轻松读懂生命科学',
+    image: 'https://lsmdescription.pages.dev/photo/kphj.png',
     link: 'https://mp.weixin.qq.com/mp/appmsgalbum?__biz=Mzg5Nzg2MjA0NA==&action=getalbum&album_id=2604116913841225730&scene=126&sessionid=1775975087810#wechat_redirect',
     isInternal: false,
   },
@@ -89,8 +93,12 @@ export default function Exhibition() {
                   <span className="inline-block px-3 py-1 bg-white/10 backdrop-blur-md rounded-full text-xs font-medium text-white/90 mb-4">
                     {exhibit.category}
                   </span>
+                  <h4 className="text-3xl font-bold text-white mb-2">{exhibit.title}</h4>
+                  <p className="text-zinc-300 text-sm mb-6 max-w-md opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                    {exhibit.description}
+                  </p>
                   <div className="flex items-center justify-between">
-                    <h4 className="text-3xl font-bold text-white">{exhibit.title}</h4>
+                    <div />
                     {exhibit.isInternal ? (
                       <Link
                         to={exhibit.link}

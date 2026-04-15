@@ -1,33 +1,33 @@
 import { motion } from 'motion/react';
 
 const studentsData = [
-   {
+  {
     id: 1,
-    title: '榜样力量',
-    name: '王同学、周同学、黄同学等',
-    image: 'https://images.unsplash.com/photo-1497633762265-9d179a990aa6?q=80&w=2073&auto=format&fit=crop',
-    description: '多人荣获国家级励志奖学金，更受邀在从医行分享保研经验贴，用实际行动传承学习力量。',
+    title: '社团风采',
+    name: '解剖科技协会',
+    image: 'https://lsmdescription.pages.dev/photo/hz2.jpg',
+    description: '以热爱为炬，探生命之秘，聚青春力量，筑解剖科普高地',
   },
   {
     id: 2,
-    title: '学海共渡',
-    name: '解剖科技协会全体社员',
-    image: 'https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?q=80&w=2073&auto=format&fit=crop',
-    description: '营造出浓厚的学习氛围，鼓励成员主动求知、互助交流，在共同学习与经验分享中，巩固专业知识，实现个人能力提升。',
+    title: '社会实践',
+    name: '知行合一，服务为民',
+    image: 'https://lsmdescription.pages.dev/photo/sxx2.png',
+    description: '扎根基层服务，践行医保使命，传递医者温度',
   },
   {
     id: 3,
-    title: '步履实践',
-    name: '志愿服务队',
-    image: 'https://images.unsplash.com/photo-1584036561566-baf8f5f1b144?q=80&w=2089&auto=format&fit=crop',
-    description: '通过基层实践，增强社会意识与责任感，践行新时代医学生的使命担当。',
+    title: '科创逐梦',
+    name: '以赛砺能，笃行致远',
+    image: 'https://lsmdescription.pages.dev/photo/comp4.jpg',
+    description: '以赛促学砺锋芒，青春逐梦创佳绩，勇攀医学科创高峰',
   },
   {
     id: 4,
-    title: '科创逐梦',
-    name: '莘莘学子',
-    image: 'https://images.unsplash.com/photo-1511174511562-5f7f18b874f8?q=80&w=2070&auto=format&fit=crop',
-    description: '用智慧与担当书写新时代医学生的科创答卷，为医学领域的创新发展注入青春力量。',
+    title: '活动风采',
+    name: '青春向党，情暖社会',
+    image: 'https://lsmdescription.pages.dev/photo/xc4.png',
+    description: '融社会温情，展青年担当，以青春赴家国之梦',
   },
 ];
 
