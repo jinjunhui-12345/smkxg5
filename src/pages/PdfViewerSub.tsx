@@ -16,7 +16,7 @@ export default function PdfViewerSub() {
   const [scale, setScale] = useState(1.0);
   const [containerWidth, setContainerWidth] = useState<number>(800);
 
-  const pdfFile = '/lsmbooks2.pdf';
+  const pdfFile = 'http://tdjjb74ot.hb-bkt.clouddn.com/lsmbooks2.pdf';
 
   function onDocumentLoadSuccess({ numPages }: { numPages: number }) {
     setNumPages(numPages);
