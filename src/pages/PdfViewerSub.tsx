@@ -1,5 +1,5 @@
 import { motion } from 'motion/react';
-import { ChevronLeft, ChevronRight, ZoomIn, ZoomOut, Download, Loader2 } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Download, Loader2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { Document, Page, pdfjs } from 'react-pdf';
@@ -13,10 +13,10 @@ import 'react-pdf/dist/Page/TextLayer.css';
 export default function PdfViewerSub() {
   const [numPages, setNumPages] = useState<number | null>(null);
   const [pageNumber, setPageNumber] = useState(1);
-  const [scale, setScale] = useState(1.0);
   const [containerWidth, setContainerWidth] = useState<number>(800);
 
-  const pdfFile = 'http://tdjjb74ot.hb-bkt.clouddn.com/lsmbooks2.pdf';
+  const pdfFile = '/lsmbooks2.pdf';
+  const externalLink = 'https://pan.quark.cn/s/e88e047e7702';
 
   function onDocumentLoadSuccess({ numPages }: { numPages: number }) {
     setNumPages(numPages);
@@ -53,59 +53,32 @@ export default function PdfViewerSub() {
           </h1>
         </div>
 
-        {/* Controls */}
-        <div className="flex items-center gap-1 md:gap-4 bg-zinc-800/50 px-2 md:px-4 py-1.5 rounded-full border border-white/5 mx-2 overflow-hidden">
-          <div className="hidden sm:flex items-center gap-1 border-r border-white/10 pr-2 md:pr-4 mr-1 md:mr-2">
-            <button 
-              onClick={() => setScale(s => Math.max(0.5, s - 0.1))}
-              className="p-1 hover:bg-white/10 rounded-md transition-colors"
-              title="缩小"
-            >
-              <ZoomOut className="w-3.5 h-3.5 md:w-4 md:h-4" />
-            </button>
-            <span className="text-[10px] md:text-xs font-mono w-10 md:w-12 text-center whitespace-nowrap">{Math.round(scale * 100)}%</span>
-            <button 
-              onClick={() => setScale(s => Math.min(2.0, s + 0.1))}
-              className="p-1 hover:bg-white/10 rounded-md transition-colors"
-              title="放大"
-            >
-              <ZoomIn className="w-3.5 h-3.5 md:w-4 md:h-4" />
-            </button>
-          </div>
-
-          <div className="flex items-center gap-1 md:gap-3">
-            <button
-              disabled={pageNumber <= 1}
-              onClick={() => setPageNumber(p => p - 1)}
-              className="p-1 hover:bg-white/10 disabled:opacity-30 disabled:hover:bg-transparent rounded-md transition-colors"
-            >
-              <ChevronLeft className="w-4 h-4 md:w-5 md:h-5" />
-            </button>
-            <span className="text-[10px] md:text-xs font-medium whitespace-nowrap">
-              {pageNumber} / {numPages || '--'}
-            </span>
-            <button
-              disabled={pageNumber >= (numPages || 0)}
-              onClick={() => setPageNumber(p => p + 1)}
-              className="p-1 hover:bg-white/10 disabled:opacity-30 disabled:hover:bg-transparent rounded-md transition-colors"
-            >
-              <ChevronRight className="w-4 h-4 md:w-5 md:h-5" />
-            </button>
-          </div>
-
-          <a 
-            href={pdfFile} 
-            download 
-            className="hidden md:flex items-center gap-2 ml-2 md:ml-4 pl-2 md:pl-4 border-l border-white/10 text-emerald-400 hover:text-emerald-300 transition-colors"
+        {/* Controls - Only Page Navigation */}
+        <div className="flex items-center gap-3 bg-zinc-800/50 px-4 py-1.5 rounded-full border border-white/5 mx-2">
+          <button
+            disabled={pageNumber <= 1}
+            onClick={() => setPageNumber(p => p - 1)}
+            className="p-1.5 hover:bg-white/10 disabled:opacity-30 disabled:hover:bg-transparent rounded-md transition-colors"
           >
-            <Download className="w-4 h-4" />
-            <span className="text-[10px] font-bold uppercase tracking-wider whitespace-nowrap">下载</span>
-          </a>
+            <ChevronLeft className="w-5 h-5" />
+          </button>
+          
+          <div className="flex items-center gap-1 px-2 border-x border-white/10">
+            <span className="text-sm font-bold text-emerald-400">{pageNumber}</span>
+            <span className="text-zinc-500 text-xs">/</span>
+            <span className="text-zinc-400 text-xs">{numPages || '--'}</span>
+          </div>
+
+          <button
+            disabled={pageNumber >= (numPages || 0)}
+            onClick={() => setPageNumber(p => p + 1)}
+            className="p-1.5 hover:bg-white/10 disabled:opacity-30 disabled:hover:bg-transparent rounded-md transition-colors"
+          >
+            <ChevronRight className="w-5 h-5" />
+          </button>
         </div>
 
-        <div className="hidden xl:block text-[10px] text-zinc-500 font-medium tracking-[0.2em] uppercase whitespace-nowrap">
-          PDF.js Engine
-        </div>
+        <div className="hidden md:block w-32" /> {/* Spacer to balance header */}
       </header>
 
       {/* PDF Container */}
@@ -120,37 +93,65 @@ export default function PdfViewerSub() {
             file={pdfFile}
             onLoadSuccess={onDocumentLoadSuccess}
             loading={
-              <div className="flex flex-col items-center justify-center py-20 gap-4 text-center">
-                <Loader2 className="w-10 h-10 text-emerald-500 animate-spin" />
-                <div className="space-y-2">
-                  <p className="text-zinc-500 text-sm animate-pulse font-medium">正在解析 PDF 资源...</p>
-                  <p className="text-zinc-600 text-xs animate-pulse">文件较大请耐心等待，推荐使用电脑端浏览。</p>
+              <div className="flex flex-col items-center justify-center py-20 gap-6 text-center">
+                <div className="relative">
+                  <Loader2 className="w-12 h-12 text-emerald-500 animate-spin" />
+                  <div className="absolute inset-0 blur-lg bg-emerald-500/20 animate-pulse" />
+                </div>
+                <div className="space-y-3">
+                  <p className="text-zinc-200 text-lg font-bold tracking-tight animate-pulse">正在解析 PDF 资源...</p>
+                  <p className="text-zinc-500 text-sm max-w-xs mx-auto leading-relaxed">
+                    文件较大请耐心等待，推荐使用电脑端浏览以获得最佳体验。
+                  </p>
                 </div>
               </div>
             }
             error={
-              <div className="flex flex-col items-center justify-center py-20 gap-6 text-center">
-                <div className="w-16 h-16 bg-red-500/10 rounded-full flex items-center justify-center">
-                  <Download className="w-8 h-8 text-red-500" />
+              <div className="flex flex-col items-center justify-center py-20 gap-8 text-center px-6">
+                <div className="w-20 h-20 bg-red-500/10 rounded-full flex items-center justify-center border border-red-500/20">
+                  <Download className="w-10 h-10 text-red-500" />
                 </div>
-                <div>
-                  <p className="text-zinc-300 font-medium mb-2">无法加载 PDF 文件</p>
-                  <p className="text-zinc-500 text-sm max-w-xs">请确保文件已正确上传至服务器，或尝试直接下载查看。</p>
+                <div className="max-w-md">
+                  <h3 className="text-xl font-bold text-white mb-3">PDF 加载失败</h3>
+                  <p className="text-zinc-400 text-sm leading-relaxed mb-8">
+                    可能是由于文件过大、网络连接不稳定或浏览器安全策略拦截。您可以尝试通过以下备用方案访问：
+                  </p>
+                  
+                  <div className="flex flex-col gap-4">
+                    <a 
+                      href={externalLink} 
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center justify-center gap-3 px-8 py-4 bg-emerald-500 text-black font-bold rounded-2xl hover:bg-emerald-400 transition-all group shadow-lg shadow-emerald-500/20"
+                    >
+                      <span>通过夸克网盘访问</span>
+                      <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                    </a>
+                    
+                    <div className="grid grid-cols-2 gap-4">
+                      <a 
+                        href={pdfFile} 
+                        target="_blank"
+                        className="flex items-center justify-center gap-2 px-4 py-3 bg-white/5 border border-white/10 rounded-xl hover:bg-white/10 transition-all text-xs font-medium"
+                      >
+                        在新窗口打开
+                      </a>
+                      <a 
+                        href={pdfFile} 
+                        download
+                        className="flex items-center justify-center gap-2 px-4 py-3 bg-white/5 border border-white/10 rounded-xl hover:bg-white/10 transition-all text-xs font-medium"
+                      >
+                        直接下载
+                      </a>
+                    </div>
+                  </div>
                 </div>
-                <a 
-                  href={pdfFile} 
-                  target="_blank"
-                  className="px-6 py-3 bg-white/5 border border-white/10 rounded-full hover:bg-white/10 transition-all text-sm"
-                >
-                  在新窗口中打开
-                </a>
               </div>
             }
           >
             <div className="shadow-2xl rounded-sm overflow-hidden bg-white">
               <Page 
                 pageNumber={pageNumber} 
-                scale={scale}
                 width={Math.min(containerWidth, 1200)}
                 renderAnnotationLayer={false}
                 renderTextLayer={false}
