@@ -15,7 +15,7 @@ export default function PdfViewer() {
   const [pageNumber, setPageNumber] = useState(1);
   const [containerWidth, setContainerWidth] = useState<number>(800);
 
-  const pdfFile = '/lsmbooks.pdf';
+  const pdfFile = 'https://ulbbsffdjkdyzasvkhnq.supabase.co/storage/v1/object/sign/lsmpdf/lsmbooks.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9jMzVkN2NlYi0zNTFmLTQ2MTItOGQzNi01YzhkYjVmZjJiYTMiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJsc21wZGYvbHNtYm9va3MucGRmIiwiaWF0IjoxNzc2MzE0ODcxLCJleHAiOjIwNjAxMzg4NzF9.X8MbJyI3L6rfvu6s6qZ18LMCMlskK5-te918DODoH2Y';
   const externalLink = 'https://pan.quark.cn/s/2e9ad9432a0b';
 
   function onDocumentLoadSuccess({ numPages }: { numPages: number }) {
