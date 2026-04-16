@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { motion } from 'motion/react';
 import { Calendar, Clock, Users, Mail, Phone, User, CheckCircle2, List, X, QrCode, AlertCircle, ShieldCheck } from 'lucide-react';
@@ -26,7 +26,10 @@ export default function Reservation() {
 
   const getByteLength = (str: string) => new TextEncoder().encode(str).length;
 
-  const timeOptions = ['08:00', '08:30', '17:00', '17:30'];
+  const timeOptions = [
+    '08:00-08:30', '08:30-09:00', '09:00-09:30', '09:30-10:00', '10:00-10:30', '10:30-11:00', '11:00-11:30', '11:30-12:00',
+    '14:00-14:30', '14:30-15:00', '15:00-15:30', '15:30-16:00', '16:00-16:30', '16:30-17:00', '17:00-17:30', '17:30-18:00'
+  ];
 
   const validatePhone = (phone: string) => {
     // Comprehensive regex based on the provided list

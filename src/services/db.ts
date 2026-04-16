@@ -86,5 +86,26 @@ export const dbService = {
       .eq('id', id);
 
     if (error) throw error;
+  },
+
+  async cleanupExpiredReservations(): Promise<number> {
+    const supabase = getSupabase();
+    if (!supabase) return 0;
+
+    // Get yesterday's date in YYYY-MM-DD format
+    const yesterday = new Date();
+    yesterday.setDate(yesterday.getDate() - 1);
+    const dateString = yesterday.toISOString().split('T')[0];
+
+    const { data, error, count } = await supabase
+      .from('ReservationData')
+      .delete({ count: 'exact' })
+      .lt('visit_date', dateString);
+
+    if (error) {
+      console.error('Failed to cleanup expired reservations:', error);
+      return 0;
+    }
+    return count || 0;
   }
 };
