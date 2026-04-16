@@ -26,13 +26,7 @@ export default function Reservation() {
 
   const getByteLength = (str: string) => new TextEncoder().encode(str).length;
 
-  const timeOptions = [];
-  for (let h = 8; h <= 21; h++) {
-    timeOptions.push(`${h.toString().padStart(2, '0')}:00`);
-    if (h < 21) {
-      timeOptions.push(`${h.toString().padStart(2, '0')}:30`);
-    }
-  }
+  const timeOptions = ['08:00', '08:30', '17:00', '17:30'];
 
   const validatePhone = (phone: string) => {
     // Comprehensive regex based on the provided list
@@ -103,11 +97,7 @@ export default function Reservation() {
       return;
     }
 
-    // 7. Remarks validation
-    if (formData.remarks && getByteLength(formData.remarks) > 200) {
-      alert('备注信息不能超过200个字节');
-      return;
-    }
+    // 7. Remarks validation - Limit removed as requested
 
     // Show Turnstile modal if not verified
     if (!turnstileToken) {
@@ -201,7 +191,7 @@ export default function Reservation() {
                 </div>
                 <div>
                   <p className="font-medium text-white">开放时间</p>
-                  <p className="text-sm">开放日不定，详见公众号</p>
+                  <p className="text-sm">详见公众号</p>
                 </div>
               </motion.div>
               <motion.div variants={itemVariants} className="flex items-center gap-4 text-zinc-300">
@@ -374,13 +364,13 @@ export default function Reservation() {
               </div>
 
               <motion.div variants={itemVariants} className="space-y-2">
-                <label className="text-sm font-medium text-zinc-400">备注信息 (选填)</label>
+                <label className="text-sm font-medium text-zinc-400">备注信息</label>
                 <textarea
                   rows={4}
                   value={formData.remarks}
                   onChange={(e) => setFormData({...formData, remarks: e.target.value})}
                   className="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-emerald-500/50 transition-all resize-none"
-                  placeholder="限200字节，如有特殊需求请在此说明..."
+                  placeholder="在此处填写您具体的单位/组织/班级名称，如有特殊需求也请在此标明。"
                 />
               </motion.div>
 
