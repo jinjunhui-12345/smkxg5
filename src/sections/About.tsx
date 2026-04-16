@@ -70,7 +70,7 @@ export default function About() {
               variants={{ hidden: { opacity: 0, y: 30 }, visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } } }}
               className="text-lg text-zinc-400 leading-relaxed max-w-xl mb-10"
             >
-              馆内设有基础医学、临床医学、预防医学等多个核心展区，通过沉浸式互动体验，让每一位参观者都能深刻理解生命的价值与医学的使命。
+              馆内设有人体解剖学、胚胎学、比较解剖学、病理学等多个专业展区
             </motion.p>
 
             <motion.div

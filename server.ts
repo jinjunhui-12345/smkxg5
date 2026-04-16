@@ -2,71 +2,28 @@ import express from 'express';
 import { createServer as createViteServer } from 'vite';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import { Resend } from 'resend';
+import { createClient } from '@supabase/supabase-js';
 import dotenv from 'dotenv';
 
 dotenv.config();
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const resend = new Resend(process.env.RESEND_API_KEY);
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 async function startServer() {
   const app = express();
   const PORT = 3000;
 
-  // Middleware to parse JSON bodies
   app.use(express.json());
 
-  // Supabase Webhook Route
-  app.post('/api/webhook/reservation', async (req, res) => {
-    try {
-      const { record, type } = req.body;
-      
-      // Only handle INSERT events or direct record payloads
-      if (type && type !== 'INSERT' && !record) {
-        return res.status(200).json({ message: 'Not an insert event' });
-      }
+  // Supabase Client for backend (if needed for other routes)
+  const supabaseUrl = process.env.VITE_SUPABASE_URL;
+  const supabaseKey = process.env.VITE_SUPABASE_KEY;
+  const supabase = (supabaseUrl && supabaseKey) ? createClient(supabaseUrl, supabaseKey) : null;
 
-      const data = record || req.body;
-
-      console.log('Received reservation webhook:', data);
-
-      if (!process.env.RESEND_API_KEY) {
-        console.error('RESEND_API_KEY is missing');
-        return res.status(500).json({ error: 'Email service not configured' });
-      }
-
-      const { data: emailData, error } = await resend.emails.send({
-        from: 'LSM Reservation <onboarding@resend.dev>',
-        to: ['3054982445@qq.com'],
-        subject: `新预约通知：${data.name}`,
-        html: `
-          <div style="font-family: sans-serif; padding: 20px; color: #333;">
-            <h2 style="color: #10b981;">收到新的展馆预约</h2>
-            <hr style="border: 0; border-top: 1px solid #eee; margin: 20px 0;" />
-            <p><b>姓名：</b> ${data.name}</p>
-            <p><b>身份/人数：</b> ${data.identity}</p>
-            <p><b>联系电话：</b> ${data.phone}</p>
-            <p><b>预约日期：</b> ${data.visit_date}</p>
-            <p><b>预约时间：</b> ${data.visit_time}</p>
-            <p><b>备注信息：</b> ${data.remarks || '无'}</p>
-            <hr style="border: 0; border-top: 1px solid #eee; margin: 20px 0;" />
-            <p style="font-size: 12px; color: #999;">此邮件由系统自动发送，请勿直接回复。</p>
-          </div>
-        `,
-      });
-
-      if (error) {
-        console.error('Resend error:', error);
-        return res.status(500).json({ error: error.message });
-      }
-
-      console.log('Email sent successfully:', emailData);
-      res.status(200).json({ success: true, id: emailData?.id });
-    } catch (err) {
-      console.error('Webhook error:', err);
-      res.status(500).json({ error: 'Internal server error' });
-    }
+  // API Health Check
+  app.get('/api/health', (req, res) => {
+    res.json({ status: 'ok' });
   });
 
   // Vite middleware for development
@@ -77,7 +34,7 @@ async function startServer() {
     });
     app.use(vite.middlewares);
   } else {
-    const distPath = path.join(__dirname, 'dist');
+    const distPath = path.join(process.cwd(), 'dist');
     app.use(express.static(distPath));
     app.get('*', (req, res) => {
       res.sendFile(path.join(distPath, 'index.html'));
