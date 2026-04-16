@@ -20,10 +20,10 @@ async function startServer() {
   // Supabase Webhook Route
   app.post('/api/webhook/reservation', async (req, res) => {
     try {
-      const { record, type } = req.json ? req.body : { record: req.body.record, type: req.body.type };
+      const { record, type } = req.body;
       
-      // Only handle INSERT events
-      if (type !== 'INSERT' && !req.body.record) {
+      // Only handle INSERT events or direct record payloads
+      if (type && type !== 'INSERT' && !record) {
         return res.status(200).json({ message: 'Not an insert event' });
       }
 
@@ -38,7 +38,7 @@ async function startServer() {
 
       const { data: emailData, error } = await resend.emails.send({
         from: 'LSM Reservation <onboarding@resend.dev>',
-        to: ['jinjunhui0612@gmail.com'],
+        to: ['3054982445@qq.com'],
         subject: `新预约通知：${data.name}`,
         html: `
           <div style="font-family: sans-serif; padding: 20px; color: #333;">
