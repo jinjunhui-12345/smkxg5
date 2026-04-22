@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { motion } from 'motion/react';
-import { Calendar, Clock, Users, Mail, Phone, User, CheckCircle2, List, X, QrCode, AlertCircle, ShieldCheck } from 'lucide-react';
+import { Calendar, Clock, Users, Mail, Phone, User, CheckCircle2, List, X, QrCode, AlertCircle, ShieldCheck, MapPin, ChevronRight } from 'lucide-react';
 import { dbService, ReservationData } from '../services/db';
 import { Turnstile, type TurnstileInstance } from '@marsidev/react-turnstile';
 
@@ -206,6 +206,23 @@ export default function Reservation() {
                   <p className="text-sm">3544472701@qq.com</p>
                 </div>
               </motion.div>
+              <motion.div variants={itemVariants} className="flex items-center gap-4 text-zinc-300">
+                <div className="w-12 h-12 rounded-full bg-zinc-900 flex items-center justify-center">
+                  <MapPin className="w-5 h-5 text-emerald-400" />
+                </div>
+                <div>
+                  <p className="font-medium text-white">展馆地址</p>
+                  <a 
+                    href="https://map.gaode.com/search?id=B0L0DMMR8H&city=410311&geoobj=112.410289%7C34.593279%7C112.423367%7C34.600035&query_type=IDQ&query=%E6%B2%B3%E5%8D%97%E7%A7%91%E6%8A%80%E5%A4%A7%E5%AD%A6%E7%94%9F%E5%91%BD%E7%A7%91%E5%AD%A6%E9%A6%86&zoom=17" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="text-sm leading-relaxed hover:text-emerald-400 transition-colors flex items-center gap-1 group"
+                  >
+                    河南科技大学开元校区医科七号楼1楼
+                    <ChevronRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+                  </a>
+                </div>
+              </motion.div>
             </motion.div>
           </motion.div>
         </div>
@@ -216,14 +233,50 @@ export default function Reservation() {
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true, margin: "-50px" }}
           transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-          className="bg-zinc-900/50 backdrop-blur-xl border border-white/10 rounded-3xl p-8 md:p-12"
+          className="bg-zinc-900/50 backdrop-blur-xl border border-white/10 rounded-3xl p-8 md:p-12 relative overflow-hidden"
         >
+          {/* Overlay for locked state */}
+          <div className="absolute inset-0 z-50 bg-zinc-950/60 backdrop-blur-sm flex flex-col items-center justify-center text-center p-6">
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              className="bg-zinc-900/80 border border-white/10 p-8 rounded-2xl shadow-2xl"
+            >
+              <AlertCircle className="w-12 h-12 text-zinc-500 mx-auto mb-4" />
+              <h4 className="text-2xl font-bold text-white mb-2">暂未开放预约</h4>
+              <p className="text-zinc-400 mb-6">暂未开放预约系统，请按需直接到场参观</p>
+              
+              <div className="text-left space-y-4 bg-emerald-500/5 border border-emerald-500/20 rounded-2xl p-5">
+                <div className="flex items-center gap-2 text-emerald-400 mb-2">
+                  <span className="font-bold tracking-wider">温馨提示：生命科学馆将于4月26日（本周日）向全体师生开放</span>
+                </div>
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <p className="text-[10px] uppercase tracking-wider text-zinc-500 font-bold">开放时段</p>
+                    <p className="text-sm text-zinc-300">上午：08:30 - 11:30</p>
+                    <p className="text-sm text-zinc-300">下午：15:00 - 18:00</p>
+                  </div>
+                  <div className="space-y-2">
+                    <p className="text-[10px] uppercase tracking-wider text-zinc-500 font-bold">专业讲解场次</p>
+                    <p className="text-sm text-zinc-300">上午：09:30 / 10:30</p>
+                    <p className="text-sm text-zinc-300">下午：15:30 / 17:00</p>
+                  </div>
+                </div>
+                
+                <p className="text-[11px] text-zinc-500 pt-2 border-t border-white/5 italic">
+                  * 本次活动向全体师生开放，到场可直接参观
+                </p>
+              </div>
+            </motion.div>
+          </div>
+
           <motion.form 
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
             variants={containerVariants}
-            className="space-y-6" 
+            className="space-y-6 opacity-20 pointer-events-none" 
             onSubmit={handleSubmit}
           >
             {isSuccess && (
@@ -380,14 +433,10 @@ export default function Reservation() {
             <motion.button
               variants={itemVariants}
               type="submit"
-              disabled={isSubmitting}
-              className="w-full bg-emerald-500 hover:bg-emerald-400 disabled:bg-emerald-500/50 disabled:cursor-not-allowed text-black font-bold py-4 rounded-xl transition-colors duration-300 flex justify-center items-center"
+              disabled={true}
+              className="w-full bg-zinc-800 text-zinc-500 font-bold py-4 rounded-xl cursor-not-allowed flex justify-center items-center"
             >
-              {isSubmitting ? (
-                <div className="w-6 h-6 border-2 border-black/20 border-t-black rounded-full animate-spin" />
-              ) : (
-                '提交预约申请'
-              )}
+              预约通道暂未开启
             </motion.button>
 
             {lastSubmittedVoucher && (
