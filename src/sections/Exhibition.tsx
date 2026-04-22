@@ -43,7 +43,7 @@ const exhibits = [
 
 export default function Exhibition() {
   return (
-    <section id="exhibition" className="py-32 bg-zinc-50 dark:bg-zinc-950 text-zinc-900 dark:text-white transition-colors duration-300">
+    <section id="exhibition" className="py-32 bg-[#f7f7f5] dark:bg-zinc-950 text-zinc-900 dark:text-white transition-colors duration-300">
       <div className="max-w-7xl mx-auto px-6">
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-8">
           <motion.div

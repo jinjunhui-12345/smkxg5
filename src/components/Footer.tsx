@@ -86,7 +86,7 @@ export default function Footer() {
   };
 
   return (
-    <footer className="bg-zinc-50 dark:bg-black text-zinc-600 dark:text-zinc-500 py-12 border-t border-zinc-200 dark:border-white/10 overflow-hidden transition-colors duration-300">
+    <footer className="bg-[#f0f0ee] dark:bg-black text-zinc-600 dark:text-zinc-500 py-12 border-t border-zinc-200 dark:border-white/10 overflow-hidden transition-colors duration-300">
       <motion.div 
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}

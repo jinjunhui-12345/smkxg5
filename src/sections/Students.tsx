@@ -33,7 +33,7 @@ const studentsData = [
 
 export default function Students() {
   return (
-    <section id="students" className="py-32 bg-zinc-100 dark:bg-zinc-900 overflow-hidden transition-colors duration-300">
+    <section id="students" className="py-32 bg-[#f0f0ee] dark:bg-zinc-900 overflow-hidden transition-colors duration-300">
       <div className="max-w-7xl mx-auto px-6 mb-16">
         <motion.div 
           initial="hidden"

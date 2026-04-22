@@ -30,7 +30,7 @@ export default function About() {
   }, [nextImage]);
 
   return (
-    <section id="about" className="relative py-32 bg-zinc-50 dark:bg-zinc-950 text-zinc-900 dark:text-white overflow-hidden transition-colors duration-300">
+    <section id="about" className="relative py-32 bg-[#f7f7f5] dark:bg-zinc-950 text-zinc-900 dark:text-white overflow-hidden transition-colors duration-300">
       <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
         {/* Left: Text Content */}
         <div className="flex flex-col justify-center">
@@ -80,7 +80,7 @@ export default function About() {
                 href="https://lsmdescription.pages.dev/" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="group inline-flex items-center gap-2 px-4 py-2 bg-zinc-200 dark:bg-white/10 backdrop-blur-md rounded-full hover:bg-emerald-500 hover:text-black transition-all duration-300 group/btn"
+                className="group inline-flex items-center gap-2 px-4 py-2 bg-zinc-200/50 dark:bg-white/10 backdrop-blur-md rounded-full hover:bg-emerald-500 hover:text-black transition-all duration-300 group/btn"
               >
                 <span className="text-xs font-medium text-zinc-800 dark:text-white group-hover/btn:text-black transition-colors">探索展馆详情</span>
                 <ArrowUpRight className="w-5 h-5 transition-transform group-hover/btn:translate-x-1 group-hover/btn:-translate-y-1 text-zinc-800 dark:text-white group-hover/btn:text-black" />

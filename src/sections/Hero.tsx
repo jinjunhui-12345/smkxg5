@@ -14,7 +14,7 @@ export default function Hero() {
   const opacity = useTransform(scrollY, [0, 500], [1, 0]);
 
   return (
-    <section className="relative h-screen w-full overflow-hidden bg-white dark:bg-black flex items-center justify-center transition-colors duration-300">
+    <section className="relative h-screen w-full overflow-hidden bg-[#f7f7f5] dark:bg-black flex items-center justify-center transition-colors duration-300">
       {/* Background Image with Parallax */}
       <motion.div
         style={{ y, opacity }}
@@ -23,10 +23,10 @@ export default function Hero() {
         <img
           src="https://images.unsplash.com/photo-1530026405186-ed1f139313f8?q=80&w=2070&auto=format&fit=crop"
           alt="Microscopic view or medical abstract"
-          className="w-full h-full object-cover opacity-40 dark:opacity-40 grayscale-[0.5] dark:grayscale-0"
+          className="w-full h-full object-cover opacity-20 dark:opacity-40 grayscale-[0.8] dark:grayscale-0"
           referrerPolicy="no-referrer"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-white/20 via-white/50 to-white dark:from-black/20 dark:via-black/50 dark:to-black" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#f7f7f5]/20 via-[#f7f7f5]/60 to-[#f7f7f5] dark:from-black/20 dark:via-black/50 dark:to-black" />
       </motion.div>
 
       {/* Content */}
@@ -48,10 +48,10 @@ export default function Hero() {
           transition={{ duration: 1, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
           className="flex flex-col items-center"
         >
-          <p className="text-xl md:text-2xl text-zinc-600 dark:text-white/70 max-w-2xl font-light tracking-wide mb-12">
+          <p className="text-xl md:text-2xl text-zinc-500/80 dark:text-white/70 max-w-2xl font-light tracking-wide mb-12 italic serif">
             探索生命的奥秘，感知医学的温度。
             <br className="hidden md:block" />
-            Rethink. Reimagine. Redo.
+            <span className="not-italic opacity-40 text-sm tracking-[0.4em] uppercase ml-2">Rethink. Reimagine. Redo.</span>
           </p>
 
           <motion.div
@@ -66,7 +66,7 @@ export default function Hero() {
               transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
               className="w-8 h-12 rounded-full border border-zinc-200 dark:border-white/20 flex items-start justify-center p-2"
             >
-              <motion.div className="w-1 h-2 bg-emerald-500 dark:bg-white rounded-full" />
+              <motion.div className="w-0.5 h-2 bg-emerald-500/50 dark:bg-white rounded-full" />
             </motion.div>
 
             {/* Hero Navigation Links */}
@@ -80,9 +80,9 @@ export default function Hero() {
                 <motion.a
                   key={link.name}
                   href={link.href}
-                  whileHover={{ scale: 1.05, backgroundColor: "rgba(16, 185, 129, 0.05)" }}
+                  whileHover={{ scale: 1.05, backgroundColor: "rgba(16, 185, 129, 0.08)" }}
                   whileTap={{ scale: 0.95 }}
-                  className="px-6 py-3 rounded-full border border-zinc-200 dark:border-white/20 text-base md:text-lg font-medium text-zinc-600 dark:text-white/90 hover:text-emerald-600 dark:hover:text-emerald-400 hover:border-emerald-500/50 transition-colors tracking-wider flex items-center gap-2"
+                  className="px-8 py-4 rounded-full border border-zinc-900/10 dark:border-white/20 text-sm md:text-base font-medium text-zinc-700 dark:text-white/90 hover:text-emerald-700 dark:hover:text-emerald-400 hover:border-emerald-500/30 transition-all tracking-widest flex items-center gap-2 bg-white/40 backdrop-blur-sm shadow-sm"
                 >
                   {link.name}
                 </motion.a>

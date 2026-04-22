@@ -168,8 +168,8 @@ export default function Reservation() {
   };
 
   return (
-    <section id="reservation" className="py-32 bg-white dark:bg-black text-zinc-900 dark:text-white relative overflow-hidden transition-colors duration-300">
-      <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_top_right,_var(--tw-gradient-stops))] from-emerald-500/5 dark:from-emerald-900/20 via-white dark:via-black to-white dark:to-black pointer-events-none" />
+    <section id="reservation" className="py-32 bg-[#f7f7f5] dark:bg-black text-zinc-900 dark:text-white relative overflow-hidden transition-colors duration-300">
+      <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_top_right,_var(--tw-gradient-stops))] from-emerald-500/5 dark:from-emerald-900/20 via-[#f7f7f5] dark:via-black to-[#f7f7f5] dark:to-black pointer-events-none" />
       
       <div className="max-w-7xl mx-auto px-6 relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24">
         {/* Left: Info */}

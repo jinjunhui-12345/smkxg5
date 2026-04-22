@@ -15,8 +15,8 @@ html {
 
 body {
   font-family: var(--font-sans);
-  background-color: white;
-  color: #111;
+  background-color: #f7f7f5; /* Muted Stone/Paper background */
+  color: #1a1b1e; /* Soft Deep Carbon text */
   overflow-x: hidden;
   transition: background-color 0.5s ease, color 0.5s ease;
 }
