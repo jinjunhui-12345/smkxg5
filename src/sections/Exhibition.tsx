@@ -43,7 +43,7 @@ const exhibits = [
 
 export default function Exhibition() {
   return (
-    <section id="exhibition" className="py-32 bg-zinc-950 text-white">
+    <section id="exhibition" className="py-32 bg-zinc-50 dark:bg-zinc-950 text-zinc-900 dark:text-white transition-colors duration-300">
       <div className="max-w-7xl mx-auto px-6">
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-8">
           <motion.div
@@ -57,13 +57,13 @@ export default function Exhibition() {
           >
             <motion.h2 
               variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] } } }}
-              className="text-sm uppercase tracking-[0.3em] text-emerald-400 mb-4 font-semibold"
+              className="text-sm uppercase tracking-[0.3em] text-emerald-600 dark:text-emerald-400 mb-4 font-semibold"
             >
               03 / 线上展馆
             </motion.h2>
             <motion.h3 
               variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] } } }}
-              className="text-4xl md:text-6xl font-bold tracking-tight"
+              className="text-4xl md:text-6xl font-bold tracking-tight text-zinc-900 dark:text-white"
             >
               云端漫步
             </motion.h3>

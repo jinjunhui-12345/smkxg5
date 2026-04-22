@@ -5,7 +5,10 @@ import { Calendar, Clock, Users, Mail, Phone, User, CheckCircle2, List, X, QrCod
 import { dbService, ReservationData } from '../services/db';
 import { Turnstile, type TurnstileInstance } from '@marsidev/react-turnstile';
 
+import { useTheme } from '../context/ThemeContext';
+
 export default function Reservation() {
+  const { theme: appTheme } = useTheme();
   const [formData, setFormData] = useState({
     name: '',
     identityType: '',
@@ -165,8 +168,8 @@ export default function Reservation() {
   };
 
   return (
-    <section id="reservation" className="py-32 bg-black text-white relative overflow-hidden">
-      <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_top_right,_var(--tw-gradient-stops))] from-emerald-900/20 via-black to-black pointer-events-none" />
+    <section id="reservation" className="py-32 bg-white dark:bg-black text-zinc-900 dark:text-white relative overflow-hidden transition-colors duration-300">
+      <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_top_right,_var(--tw-gradient-stops))] from-emerald-500/5 dark:from-emerald-900/20 via-white dark:via-black to-white dark:to-black pointer-events-none" />
       
       <div className="max-w-7xl mx-auto px-6 relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24">
         {/* Left: Info */}
@@ -177,46 +180,46 @@ export default function Reservation() {
             viewport={{ once: true, margin: "-50px" }}
             variants={containerVariants}
           >
-            <motion.h2 variants={itemVariants} className="text-sm uppercase tracking-[0.3em] text-emerald-400 mb-6 font-semibold">
+            <motion.h2 variants={itemVariants} className="text-sm uppercase tracking-[0.3em] text-emerald-600 dark:text-emerald-400 mb-6 font-semibold">
               04 / 展馆预约
             </motion.h2>
-            <motion.h3 variants={itemVariants} className="text-4xl md:text-6xl font-bold tracking-tight mb-8 leading-[1.1]">
+            <motion.h3 variants={itemVariants} className="text-4xl md:text-6xl font-bold tracking-tight mb-8 leading-[1.1] text-zinc-900 dark:text-white">
               开启您的<br />探索之旅
             </motion.h3>
-            <motion.p variants={itemVariants} className="text-lg text-zinc-400 leading-relaxed mb-12 max-w-xl">
+            <motion.p variants={itemVariants} className="text-lg text-zinc-600 dark:text-zinc-400 leading-relaxed mb-12 max-w-xl">
               生命科学馆面向公众免费开放。为保证参观体验，请提前至少1个工作日进行预约。团队参观请提供相关证明材料。
             </motion.p>
 
             <motion.div variants={containerVariants} className="space-y-6">
-              <motion.div variants={itemVariants} className="flex items-center gap-4 text-zinc-300">
-                <div className="w-12 h-12 rounded-full bg-zinc-900 flex items-center justify-center">
-                  <Calendar className="w-5 h-5 text-emerald-400" />
+              <motion.div variants={itemVariants} className="flex items-center gap-4 text-zinc-600 dark:text-zinc-300">
+                <div className="w-12 h-12 rounded-full bg-zinc-100 dark:bg-zinc-900 flex items-center justify-center">
+                  <Calendar className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
                 </div>
                 <div>
-                  <p className="font-medium text-white">开放时间</p>
+                  <p className="font-medium text-zinc-900 dark:text-white">开放时间</p>
                   <p className="text-sm">详见公众号</p>
                 </div>
               </motion.div>
-              <motion.div variants={itemVariants} className="flex items-center gap-4 text-zinc-300">
-                <div className="w-12 h-12 rounded-full bg-zinc-900 flex items-center justify-center">
-                  <Phone className="w-5 h-5 text-emerald-400" />
+              <motion.div variants={itemVariants} className="flex items-center gap-4 text-zinc-600 dark:text-zinc-300">
+                <div className="w-12 h-12 rounded-full bg-zinc-100 dark:bg-zinc-900 flex items-center justify-center">
+                  <Phone className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
                 </div>
                 <div>
-                  <p className="font-medium text-white">联系邮箱</p>
+                  <p className="font-medium text-zinc-900 dark:text-white">联系邮箱</p>
                   <p className="text-sm">3544472701@qq.com</p>
                 </div>
               </motion.div>
-              <motion.div variants={itemVariants} className="flex items-center gap-4 text-zinc-300">
-                <div className="w-12 h-12 rounded-full bg-zinc-900 flex items-center justify-center">
-                  <MapPin className="w-5 h-5 text-emerald-400" />
+              <motion.div variants={itemVariants} className="flex items-center gap-4 text-zinc-600 dark:text-zinc-300">
+                <div className="w-12 h-12 rounded-full bg-zinc-100 dark:bg-zinc-900 flex items-center justify-center">
+                  <MapPin className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
                 </div>
                 <div>
-                  <p className="font-medium text-white">展馆地址</p>
+                  <p className="font-medium text-zinc-900 dark:text-white">展馆地址</p>
                   <a 
                     href="https://map.gaode.com/search?id=B0L0DMMR8H&city=410311&geoobj=112.410289%7C34.593279%7C112.423367%7C34.600035&query_type=IDQ&query=%E6%B2%B3%E5%8D%97%E7%A7%91%E6%8A%80%E5%A4%A7%E5%AD%A6%E7%94%9F%E5%91%BD%E7%A7%91%E5%AD%A6%E9%A6%86&zoom=17" 
                     target="_blank" 
                     rel="noopener noreferrer"
-                    className="text-sm leading-relaxed hover:text-emerald-400 transition-colors flex items-center gap-1 group"
+                    className="text-sm leading-relaxed hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors flex items-center gap-1 group"
                   >
                     河南科技大学开元校区医科七号楼1楼
                     <ChevronRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
@@ -233,38 +236,38 @@ export default function Reservation() {
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true, margin: "-50px" }}
           transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-          className="bg-zinc-900/50 backdrop-blur-xl border border-white/10 rounded-3xl p-8 md:p-12 relative overflow-hidden"
+          className="bg-white dark:bg-zinc-900/50 backdrop-blur-xl border border-zinc-200 dark:border-white/10 rounded-3xl p-8 md:p-12 relative overflow-hidden shadow-2xl dark:shadow-none"
         >
           {/* Overlay for locked state */}
-          <div className="absolute inset-0 z-50 bg-zinc-950/60 backdrop-blur-sm flex flex-col items-center justify-center text-center p-6">
+          <div className="absolute inset-0 z-50 bg-white/60 dark:bg-zinc-950/60 backdrop-blur-sm flex flex-col items-center justify-center text-center p-6">
             <motion.div
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
-              className="bg-zinc-900/80 border border-white/10 p-8 rounded-2xl shadow-2xl"
+              className="bg-white dark:bg-zinc-900/80 border border-zinc-200 dark:border-white/10 p-8 rounded-2xl shadow-2xl"
             >
-              <AlertCircle className="w-12 h-12 text-zinc-500 mx-auto mb-4" />
-              <h4 className="text-2xl font-bold text-white mb-2">暂未开放预约</h4>
-              <p className="text-zinc-400 mb-6">暂未开放预约系统，请按需直接到场参观</p>
+              <AlertCircle className="w-12 h-12 text-zinc-400 dark:text-zinc-500 mx-auto mb-4" />
+              <h4 className="text-2xl font-bold text-zinc-900 dark:text-white mb-2">暂未开放预约</h4>
+              <p className="text-zinc-600 dark:text-zinc-400 mb-6">暂未开放预约系统，请按需直接到场参观</p>
               
               <div className="text-left space-y-4 bg-emerald-500/5 border border-emerald-500/20 rounded-2xl p-5">
-                <div className="flex items-center gap-2 text-emerald-400 mb-2">
+                <div className="flex items-center gap-2 text-emerald-600 dark:text-emerald-400 mb-2">
                   <span className="font-bold tracking-wider">温馨提示：生命科学馆将于4月26日（本周日）向全体师生开放</span>
                 </div>
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <p className="text-[10px] uppercase tracking-wider text-zinc-500 font-bold">开放时段</p>
-                    <p className="text-sm text-zinc-300">上午：08:30 - 11:30</p>
-                    <p className="text-sm text-zinc-300">下午：15:00 - 18:00</p>
+                    <p className="text-sm text-zinc-600 dark:text-zinc-300">上午：08:30 - 11:30</p>
+                    <p className="text-sm text-zinc-600 dark:text-zinc-300">下午：15:00 - 18:00</p>
                   </div>
                   <div className="space-y-2">
                     <p className="text-[10px] uppercase tracking-wider text-zinc-500 font-bold">专业讲解场次</p>
-                    <p className="text-sm text-zinc-300">上午：09:30 / 10:30</p>
-                    <p className="text-sm text-zinc-300">下午：15:30 / 17:00</p>
+                    <p className="text-sm text-zinc-600 dark:text-zinc-300">上午：09:30 / 10:30</p>
+                    <p className="text-sm text-zinc-600 dark:text-zinc-300">下午：15:30 / 17:00</p>
                   </div>
                 </div>
                 
-                <p className="text-[11px] text-zinc-500 pt-2 border-t border-white/5 italic">
+                <p className="text-[11px] text-zinc-400 dark:text-zinc-500 pt-2 border-t border-zinc-200 dark:border-white/5 italic">
                   * 本次活动向全体师生开放，到场可直接参观
                 </p>
               </div>
@@ -292,7 +295,7 @@ export default function Reservation() {
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <motion.div variants={itemVariants} className="space-y-2">
-                  <label className="text-sm font-medium text-zinc-400 flex items-center gap-2">
+                  <label className="text-sm font-medium text-zinc-500 dark:text-zinc-400 flex items-center gap-2">
                     <User className="w-4 h-4" /> 姓名 <span className="text-emerald-500">*</span>
                   </label>
                   <input
@@ -301,12 +304,12 @@ export default function Reservation() {
                     maxLength={12}
                     value={formData.name}
                     onChange={(e) => setFormData({...formData, name: e.target.value})}
-                    className="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-emerald-500/50 transition-all placeholder:text-zinc-600"
+                    className="w-full bg-zinc-50 dark:bg-black/50 border border-zinc-200 dark:border-white/10 rounded-xl px-4 py-3 text-zinc-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-emerald-500/50 transition-all placeholder:text-zinc-400 dark:placeholder:text-zinc-600"
                     placeholder="请输入你的姓名"
                   />
                 </motion.div>
                 <motion.div variants={itemVariants} className="space-y-2">
-                  <label className="text-sm font-medium text-zinc-400 flex items-center gap-2">
+                  <label className="text-sm font-medium text-zinc-500 dark:text-zinc-400 flex items-center gap-2">
                     <Users className="w-4 h-4" /> 身份 <span className="text-emerald-500">*</span>
                   </label>
                   <div className="relative group">
@@ -314,18 +317,18 @@ export default function Reservation() {
                       required
                       value={formData.identityType}
                       onChange={(e) => setFormData({...formData, identityType: e.target.value})}
-                      className="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-emerald-500/50 transition-all appearance-none cursor-pointer hover:border-white/20"
+                      className="w-full bg-zinc-50 dark:bg-black/50 border border-zinc-200 dark:border-white/10 rounded-xl px-4 py-3 text-zinc-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-emerald-500/50 transition-all appearance-none cursor-pointer hover:border-zinc-300 dark:hover:border-white/20"
                     >
-                      <option value="" disabled className="bg-zinc-900">请选择身份</option>
-                      <option value="校内团体" className="bg-zinc-900">校内团体</option>
-                      <option value="社会团体" className="bg-zinc-900">社会团体</option>
-                      <option value="校内老师" className="bg-zinc-900">校内老师</option>
-                      <option value="校内学生" className="bg-zinc-900">校内学生</option>
-                      <option value="校外学生" className="bg-zinc-900">校外学生</option>
-                      <option value="社会人员" className="bg-zinc-900">社会人员</option>
-                      <option value="其他" className="bg-zinc-900">其他请输入</option>
+                      <option value="" disabled className="bg-white dark:bg-zinc-900">请选择身份</option>
+                      <option value="校内团体" className="bg-white dark:bg-zinc-900">校内团体</option>
+                      <option value="社会团体" className="bg-white dark:bg-zinc-900">社会团体</option>
+                      <option value="校内老师" className="bg-white dark:bg-zinc-900">校内老师</option>
+                      <option value="校内学生" className="bg-white dark:bg-zinc-900">校内学生</option>
+                      <option value="校外学生" className="bg-white dark:bg-zinc-900">校外学生</option>
+                      <option value="社会人员" className="bg-white dark:bg-zinc-900">社会人员</option>
+                      <option value="其他" className="bg-white dark:bg-zinc-900">其他请输入</option>
                     </select>
-                    <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-zinc-500 group-hover:text-emerald-400 transition-colors">
+                    <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-zinc-400 dark:text-zinc-500 group-hover:text-emerald-500 dark:group-hover:text-emerald-400 transition-colors">
                       <List className="w-4 h-4" />
                     </div>
                   </div>
@@ -338,7 +341,7 @@ export default function Reservation() {
                   animate={{ opacity: 1, height: 'auto' }}
                   className="space-y-2"
                 >
-                  <label className="text-sm font-medium text-zinc-400 flex items-center gap-2">
+                  <label className="text-sm font-medium text-zinc-500 dark:text-zinc-400 flex items-center gap-2">
                     <List className="w-4 h-4" /> 其他身份说明 <span className="text-emerald-500">*</span>
                   </label>
                   <input
@@ -346,7 +349,7 @@ export default function Reservation() {
                     required
                     value={formData.identityOther}
                     onChange={(e) => setFormData({...formData, identityOther: e.target.value})}
-                    className="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-emerald-500/50 transition-all"
+                    className="w-full bg-zinc-50 dark:bg-black/50 border border-zinc-200 dark:border-white/10 rounded-xl px-4 py-3 text-zinc-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-emerald-500/50 transition-all"
                     placeholder="请输入您的身份"
                   />
                 </motion.div>
@@ -354,7 +357,7 @@ export default function Reservation() {
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <motion.div variants={itemVariants} className="space-y-2">
-                  <label className="text-sm font-medium text-zinc-400 flex items-center gap-2">
+                  <label className="text-sm font-medium text-zinc-500 dark:text-zinc-400 flex items-center gap-2">
                     <Users className="w-4 h-4" /> 参观人数 <span className="text-emerald-500">*</span>
                   </label>
                   <input
@@ -363,12 +366,12 @@ export default function Reservation() {
                     required
                     value={formData.peopleCount}
                     onChange={(e) => setFormData({...formData, peopleCount: e.target.value.replace(/\D/g, '')})}
-                    className="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-emerald-500/50 transition-all placeholder:text-zinc-600 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                    className="w-full bg-zinc-50 dark:bg-black/50 border border-zinc-200 dark:border-white/10 rounded-xl px-4 py-3 text-zinc-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-emerald-500/50 transition-all placeholder:text-zinc-400 dark:placeholder:text-zinc-600 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                     placeholder="请输入人数"
                   />
                 </motion.div>
                 <motion.div variants={itemVariants} className="space-y-2">
-                  <label className="text-sm font-medium text-zinc-400 flex items-center gap-2">
+                  <label className="text-sm font-medium text-zinc-500 dark:text-zinc-400 flex items-center gap-2">
                     <Phone className="w-4 h-4" /> 联系电话 <span className="text-emerald-500">*</span>
                   </label>
                   <input
@@ -376,7 +379,7 @@ export default function Reservation() {
                     required
                     value={formData.phone}
                     onChange={(e) => setFormData({...formData, phone: e.target.value.replace(/\D/g, '').slice(0, 11)})}
-                    className="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-emerald-500/50 transition-all"
+                    className="w-full bg-zinc-50 dark:bg-black/50 border border-zinc-200 dark:border-white/10 rounded-xl px-4 py-3 text-zinc-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-emerald-500/50 transition-all placeholder:text-zinc-400 dark:placeholder:text-zinc-600"
                     placeholder="请输入11位手机号码"
                   />
                 </motion.div>
@@ -384,7 +387,7 @@ export default function Reservation() {
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <motion.div variants={itemVariants} className="space-y-2">
-                  <label className="text-sm font-medium text-zinc-400 flex items-center gap-2">
+                  <label className="text-sm font-medium text-zinc-500 dark:text-zinc-400 flex items-center gap-2">
                     <Calendar className="w-4 h-4" /> 预约日期 <span className="text-emerald-500">*</span>
                   </label>
                   <input
@@ -393,11 +396,11 @@ export default function Reservation() {
                     min={new Date().toISOString().split('T')[0]}
                     value={formData.visit_date}
                     onChange={(e) => setFormData({...formData, visit_date: e.target.value})}
-                    className="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-emerald-500/50 transition-all [color-scheme:dark]"
+                    className="w-full bg-zinc-50 dark:bg-black/50 border border-zinc-200 dark:border-white/10 rounded-xl px-4 py-3 text-zinc-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-emerald-500/50 transition-all dark:[color-scheme:dark]"
                   />
                 </motion.div>
                 <motion.div variants={itemVariants} className="space-y-2">
-                  <label className="text-sm font-medium text-zinc-400 flex items-center gap-2">
+                  <label className="text-sm font-medium text-zinc-500 dark:text-zinc-400 flex items-center gap-2">
                     <Clock className="w-4 h-4" /> 预约时间 <span className="text-emerald-500">*</span>
                   </label>
                   <div className="relative group">
@@ -405,14 +408,14 @@ export default function Reservation() {
                       required
                       value={formData.visit_time}
                       onChange={(e) => setFormData({...formData, visit_time: e.target.value})}
-                      className="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-emerald-500/50 transition-all appearance-none cursor-pointer hover:border-white/20"
+                      className="w-full bg-zinc-50 dark:bg-black/50 border border-zinc-200 dark:border-white/10 rounded-xl px-4 py-3 text-zinc-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-emerald-500/50 transition-all appearance-none cursor-pointer hover:border-zinc-300 dark:hover:border-white/20"
                     >
-                      <option value="" disabled className="bg-zinc-900">请选择时间</option>
+                      <option value="" disabled className="bg-white dark:bg-zinc-900">请选择时间</option>
                       {timeOptions.map(time => (
-                        <option key={time} value={time} className="bg-zinc-900">{time}</option>
+                        <option key={time} value={time} className="bg-white dark:bg-zinc-900">{time}</option>
                       ))}
                     </select>
-                    <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-zinc-500 group-hover:text-emerald-400 transition-colors">
+                    <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-zinc-400 dark:text-zinc-500 group-hover:text-emerald-500 dark:group-hover:text-emerald-400 transition-colors">
                       <Clock className="w-4 h-4" />
                     </div>
                   </div>
@@ -420,12 +423,12 @@ export default function Reservation() {
               </div>
 
               <motion.div variants={itemVariants} className="space-y-2">
-                <label className="text-sm font-medium text-zinc-400">备注信息</label>
+                <label className="text-sm font-medium text-zinc-500 dark:text-zinc-400">备注信息</label>
                 <textarea
                   rows={4}
                   value={formData.remarks}
                   onChange={(e) => setFormData({...formData, remarks: e.target.value})}
-                  className="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-emerald-500/50 transition-all resize-none"
+                  className="w-full bg-zinc-50 dark:bg-black/50 border border-zinc-200 dark:border-white/10 rounded-xl px-4 py-3 text-zinc-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-emerald-500/50 transition-all resize-none placeholder:text-zinc-400 dark:placeholder:text-zinc-600"
                   placeholder="在此处填写您具体的单位/组织/班级名称，如有特殊需求也请在此标明。"
                 />
               </motion.div>
@@ -434,7 +437,7 @@ export default function Reservation() {
               variants={itemVariants}
               type="submit"
               disabled={true}
-              className="w-full bg-zinc-800 text-zinc-500 font-bold py-4 rounded-xl cursor-not-allowed flex justify-center items-center"
+              className="w-full bg-zinc-100 dark:bg-zinc-800 text-zinc-400 dark:text-zinc-500 font-bold py-4 rounded-xl cursor-not-allowed flex justify-center items-center border border-zinc-200 dark:border-white/5"
             >
               预约通道暂未开启
             </motion.button>
@@ -461,7 +464,7 @@ export default function Reservation() {
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="bg-zinc-900 border border-white/10 rounded-2xl p-8 w-full max-w-sm relative shadow-2xl text-center"
+            className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-white/10 rounded-2xl p-8 w-full max-w-sm relative shadow-2xl text-center"
           >
             <button 
               onClick={() => {
@@ -469,19 +472,19 @@ export default function Reservation() {
                 setTurnstileToken(null);
                 turnstileRef.current?.reset();
               }}
-              className="absolute top-4 right-4 text-zinc-500 hover:text-white transition-colors"
+              className="absolute top-4 right-4 text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition-colors"
             >
               <X className="w-5 h-5" />
             </button>
 
             <div className="flex justify-center mb-6">
               <div className="w-12 h-12 rounded-full bg-emerald-500/10 flex items-center justify-center">
-                <ShieldCheck className="w-6 h-6 text-emerald-400" />
+                <ShieldCheck className="w-6 h-6 text-emerald-600 dark:text-emerald-400" />
               </div>
             </div>
 
-            <h3 className="text-xl font-bold text-white mb-2">安全验证</h3>
-            <p className="text-zinc-400 text-sm mb-8">请完成人机验证以提交预约申请</p>
+            <h3 className="text-xl font-bold text-zinc-900 dark:text-white mb-2">安全验证</h3>
+            <p className="text-zinc-500 dark:text-zinc-400 text-sm mb-8">请完成人机验证以提交预约申请</p>
 
             <div className="flex justify-center min-h-[65px]">
               <Turnstile
@@ -500,7 +503,7 @@ export default function Reservation() {
                   alert('验证码加载失败，请检查网络连接或刷新页面。');
                 }}
                 options={{
-                  theme: 'dark',
+                  theme: appTheme as 'light' | 'dark',
                   size: 'normal',
                 }}
               />
@@ -520,26 +523,26 @@ export default function Reservation() {
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="bg-zinc-900 border border-white/10 rounded-2xl p-6 w-full max-w-md relative shadow-2xl flex flex-col max-h-[90vh]"
+            className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-white/10 rounded-2xl p-6 w-full max-w-md relative shadow-2xl flex flex-col max-h-[90vh]"
           >
             <button 
               onClick={() => setVoucher(null)}
-              className="absolute top-4 right-4 text-zinc-500 hover:text-white transition-colors z-10"
+              className="absolute top-4 right-4 text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition-colors z-10"
             >
               <X className="w-5 h-5" />
             </button>
             
-            <h3 className="text-xl font-bold text-white mb-4 text-center">预约成功</h3>
+            <h3 className="text-xl font-bold text-zinc-900 dark:text-white mb-4 text-center">预约成功</h3>
             
             <div className="flex-1 overflow-y-auto overflow-x-hidden pb-4">
               {/* Ticket Element */}
-              <div id="voucher-ticket" className="bg-white text-black rounded-xl p-8 relative overflow-hidden mx-auto w-full max-w-[350px] shadow-lg">
+              <div id="voucher-ticket" className="bg-zinc-50 dark:bg-white text-zinc-900 dark:text-black rounded-xl p-8 relative overflow-hidden mx-auto w-full max-w-[350px] shadow-inner dark:shadow-lg">
                 {/* Decorative elements */}
                 <div className="absolute top-0 left-0 w-full h-3 bg-emerald-500"></div>
                 
                 <div className="text-center mb-8 mt-2">
-                  <h4 className="text-3xl font-black tracking-tighter mb-1">LSM<span className="text-emerald-500">.</span></h4>
-                  <p className="text-xs text-gray-500 font-medium tracking-widest uppercase">Exhibition Voucher</p>
+                  <h4 className="text-3xl font-black tracking-tighter mb-1 font-sans">LSM<span className="text-emerald-500">.</span></h4>
+                  <p className="text-xs text-zinc-500 font-medium tracking-widest uppercase">Exhibition Voucher</p>
                 </div>
                 
                 <div className="space-y-4 mb-8">

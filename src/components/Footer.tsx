@@ -86,7 +86,7 @@ export default function Footer() {
   };
 
   return (
-    <footer className="bg-black text-zinc-500 py-12 border-t border-white/10 overflow-hidden">
+    <footer className="bg-zinc-50 dark:bg-black text-zinc-600 dark:text-zinc-500 py-12 border-t border-zinc-200 dark:border-white/10 overflow-hidden transition-colors duration-300">
       <motion.div 
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -95,8 +95,8 @@ export default function Footer() {
         className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-6"
       >
         <div className="flex flex-col items-center md:items-start gap-2">
-          <a href="#" className="text-2xl font-bold tracking-tighter text-white">
-            LSM<span className="text-emerald-400">.</span>
+          <a href="#" className="text-2xl font-bold tracking-tighter text-zinc-900 dark:text-white">
+            LSM<span className="text-emerald-500">.</span>
           </a>
           <p className="text-sm">生命科学馆官方网站</p>
         </div>
@@ -104,19 +104,19 @@ export default function Footer() {
         <div className="flex items-center gap-6 text-sm">
           <button 
             onClick={() => setActiveModal('privacy')}
-            className="hover:text-white transition-colors cursor-pointer"
+            className="hover:text-zinc-900 dark:hover:text-white transition-colors cursor-pointer"
           >
             隐私政策
           </button>
           <button 
             onClick={() => setActiveModal('terms')}
-            className="hover:text-white transition-colors cursor-pointer"
+            className="hover:text-zinc-900 dark:hover:text-white transition-colors cursor-pointer"
           >
             使用条款
           </button>
           <button 
             onClick={() => setActiveModal('thanks')}
-            className="hover:text-white transition-colors cursor-pointer"
+            className="hover:text-zinc-900 dark:hover:text-white transition-colors cursor-pointer"
           >
             本站致谢
           </button>
@@ -136,25 +136,25 @@ export default function Footer() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setActiveModal(null)}
-              className="absolute inset-0 bg-black/80 backdrop-blur-sm"
+              className="absolute inset-0 bg-black/60 dark:bg-black/80 backdrop-blur-sm"
             />
             <motion.div
               initial={{ opacity: 0, scale: 0.95, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
-              className="relative w-full max-w-lg bg-zinc-900 border border-white/10 rounded-3xl overflow-hidden shadow-2xl"
+              className="relative w-full max-w-lg bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-white/10 rounded-3xl overflow-hidden shadow-2xl"
             >
-              <div className="p-6 border-b border-white/5 flex items-center justify-between">
-                <h3 className="text-xl font-bold text-white">{modalContent[activeModal].title}</h3>
+              <div className="p-6 border-b border-zinc-100 dark:border-white/5 flex items-center justify-between">
+                <h3 className="text-xl font-bold text-zinc-900 dark:text-white">{modalContent[activeModal].title}</h3>
                 <button 
                   onClick={() => setActiveModal(null)}
-                  className="p-2 hover:bg-white/5 rounded-full transition-colors"
+                  className="p-2 hover:bg-zinc-100 dark:hover:bg-white/5 rounded-full transition-colors"
                 >
                   <X className="w-5 h-5 text-zinc-400" />
                 </button>
               </div>
               <div className="p-8 max-h-[70vh] overflow-y-auto">
-                <div className="text-zinc-400 leading-relaxed whitespace-pre-wrap">
+                <div className="text-zinc-600 dark:text-zinc-400 leading-relaxed whitespace-pre-wrap">
                   {modalContent[activeModal].content}
                 </div>
               </div>

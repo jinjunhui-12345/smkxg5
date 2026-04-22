@@ -65,11 +65,11 @@ export default function Navbar() {
       animate={hidden ? 'hidden' : 'visible'}
       transition={{ duration: 0.35, ease: 'easeInOut' }}
       className={`fixed top-0 w-full z-50 transition-colors duration-300 ${
-        isScrolled ? 'bg-black/80 backdrop-blur-md border-b border-white/10' : 'bg-transparent'
+        isScrolled ? 'bg-white/80 dark:bg-black/80 backdrop-blur-md border-b border-zinc-200 dark:border-white/10' : 'bg-transparent'
       }`}
     >
       <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-        <a href="#" className="text-2xl font-bold tracking-tighter text-white">
+        <a href="#" className="text-2xl font-bold tracking-tighter text-zinc-900 dark:text-white">
           LSM<span className="text-emerald-400">.</span>
         </a>
 
@@ -87,7 +87,7 @@ export default function Navbar() {
                   <a
                     key={link.name}
                     href={link.href}
-                    className="text-sm font-medium text-white/80 hover:text-white transition-colors"
+                    className="text-sm font-medium text-zinc-600 dark:text-white/80 hover:text-zinc-900 dark:hover:text-white transition-colors"
                   >
                     {link.name}
                   </a>
@@ -97,13 +97,13 @@ export default function Navbar() {
           </AnimatePresence>
           <a
             href="#reservation"
-            className="px-5 py-2 text-sm font-medium bg-white text-black rounded-full hover:bg-emerald-400 hover:text-black transition-colors"
+            className="px-5 py-2 text-sm font-medium bg-zinc-900 dark:bg-white text-white dark:text-black rounded-full hover:bg-emerald-500 hover:text-black transition-colors shadow-lg dark:shadow-none"
           >
             立即预约
           </a>
           <button
             onClick={() => setShowAdminModal(true)}
-            className="px-5 py-2 text-sm font-medium border border-white/20 text-white rounded-full hover:bg-white/10 transition-colors flex items-center gap-2"
+            className="px-5 py-2 text-sm font-medium border border-zinc-200 dark:border-white/20 text-zinc-900 dark:text-white rounded-full hover:bg-zinc-100 dark:hover:bg-white/10 transition-colors flex items-center gap-2"
           >
             <Lock className="w-4 h-4" /> 管理员
           </button>
@@ -111,7 +111,7 @@ export default function Navbar() {
 
         {/* Mobile Menu Toggle */}
         <button
-          className="md:hidden text-white"
+          className="md:hidden text-zinc-900 dark:text-white"
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
         >
           {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
@@ -123,14 +123,14 @@ export default function Navbar() {
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="md:hidden absolute top-20 left-0 w-full bg-black/95 backdrop-blur-md border-b border-white/10 py-6 px-6 flex flex-col gap-6"
+          className="md:hidden absolute top-20 left-0 w-full bg-white/95 dark:bg-black/95 backdrop-blur-md border-b border-zinc-200 dark:border-white/10 py-6 px-6 flex flex-col gap-6"
         >
           {navLinks.map((link) => (
             <a
               key={link.name}
               href={link.href}
               onClick={() => setIsMobileMenuOpen(false)}
-              className="text-lg font-medium text-white/80 hover:text-white"
+              className="text-lg font-medium text-zinc-600 dark:text-white/80 hover:text-zinc-900 dark:hover:text-white"
             >
               {link.name}
             </a>
@@ -140,7 +140,7 @@ export default function Navbar() {
               setIsMobileMenuOpen(false);
               setShowAdminModal(true);
             }}
-            className="text-lg font-medium text-emerald-400 hover:text-emerald-300 text-left flex items-center gap-2 mt-4"
+            className="text-lg font-medium text-emerald-600 dark:text-emerald-400 hover:text-emerald-500 text-left flex items-center gap-2 mt-4"
           >
             <Lock className="w-5 h-5" /> 管理员入口
           </button>
@@ -153,7 +153,7 @@ export default function Navbar() {
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="bg-zinc-900 border border-white/10 rounded-2xl p-8 w-full max-w-md relative shadow-2xl"
+            className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-white/10 rounded-2xl p-8 w-full max-w-md relative shadow-2xl"
           >
             <button 
               onClick={() => {
@@ -162,19 +162,19 @@ export default function Navbar() {
                 setError('');
                 setIsFirstAttempt(true);
               }}
-              className="absolute top-4 right-4 text-zinc-500 hover:text-white transition-colors"
+              className="absolute top-4 right-4 text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition-colors"
             >
               <X className="w-5 h-5" />
             </button>
             
             <div className="flex justify-center mb-6">
               <div className="w-12 h-12 rounded-full bg-emerald-500/10 flex items-center justify-center">
-                <Lock className="w-6 h-6 text-emerald-400" />
+                <Lock className="w-6 h-6 text-emerald-600 dark:text-emerald-400" />
               </div>
             </div>
             
-            <h3 className="text-2xl font-bold text-center text-white mb-2">管理员登录</h3>
-            <p className="text-zinc-400 text-center text-sm mb-8">请输入管理员密码以访问预约数据</p>
+            <h3 className="text-2xl font-bold text-center text-zinc-900 dark:text-white mb-2">管理员登录</h3>
+            <p className="text-zinc-500 dark:text-zinc-400 text-center text-sm mb-8">请输入管理员密码以访问预约数据</p>
             
             <form onSubmit={handleAdminLogin} className="space-y-4">
               <div>
@@ -186,7 +186,7 @@ export default function Navbar() {
                     if (error) setError('');
                   }}
                   placeholder="请输入密码"
-                  className="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-emerald-500/50 transition-all text-center tracking-widest"
+                  className="w-full bg-zinc-50 dark:bg-black/50 border border-zinc-200 dark:border-white/10 rounded-xl px-4 py-3 text-zinc-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-emerald-500/50 transition-all text-center tracking-widest"
                   autoFocus
                 />
                 {error && (

@@ -28,17 +28,17 @@ export default function AtlasSelection() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-zinc-950 text-white flex flex-col">
+    <div className="min-h-screen bg-white dark:bg-zinc-950 text-zinc-900 dark:text-white flex flex-col transition-colors duration-300">
       {/* Header */}
-      <header className="h-16 border-b border-white/10 flex items-center justify-between px-6 bg-zinc-900/50 backdrop-blur-md sticky top-0 z-50">
+      <header className="h-16 border-b border-zinc-200 dark:border-white/10 flex items-center justify-between px-6 bg-white/50 dark:bg-zinc-900/50 backdrop-blur-md sticky top-0 z-50">
         <div className="flex items-center gap-4">
           <Link 
             to="/" 
-            className="p-2 hover:bg-white/10 rounded-full transition-colors group"
+            className="p-2 hover:bg-zinc-100 dark:hover:bg-white/10 rounded-full transition-colors group"
           >
-            <ChevronLeft className="w-6 h-6 text-zinc-400 group-hover:text-white transition-colors" />
+            <ChevronLeft className="w-6 h-6 text-zinc-500 dark:text-zinc-400 group-hover:text-zinc-900 dark:group-hover:text-white transition-colors" />
           </Link>
-          <h1 className="text-lg font-bold tracking-tight">解剖图册 <span className="text-emerald-400">.</span></h1>
+          <h1 className="text-lg font-bold tracking-tight text-zinc-900 dark:text-white">解剖图册 <span className="text-emerald-600 dark:text-emerald-400">.</span></h1>
         </div>
       </header>
 
@@ -55,23 +55,23 @@ export default function AtlasSelection() {
               initial={{ opacity: 0, x: index % 2 === 0 ? -20 : 20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: index * 0.2 }}
-              className={`relative group overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br ${option.gradient} p-8 md:p-12 hover:border-emerald-500/30 transition-all duration-500`}
+              className={`relative group overflow-hidden rounded-3xl border border-zinc-200 dark:border-white/10 bg-gradient-to-br ${option.gradient} p-8 md:p-12 hover:border-emerald-500/30 transition-all duration-500`}
             >
               <div className="relative z-10 flex flex-col md:flex-row gap-8 items-start">
-                <div className="p-4 rounded-2xl bg-white/5 border border-white/10 group-hover:scale-110 transition-transform duration-500">
+                <div className="p-4 rounded-2xl bg-zinc-100/50 dark:bg-white/5 border border-zinc-200 dark:border-white/10 group-hover:scale-110 transition-transform duration-500">
                   {option.icon}
                 </div>
                 <div className="flex-1 space-y-4">
-                  <h2 className="text-2xl md:text-3xl font-bold tracking-tight text-white group-hover:text-emerald-400 transition-colors">
+                  <h2 className="text-2xl md:text-3xl font-bold tracking-tight text-zinc-900 dark:text-white group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors">
                     {option.title}
                   </h2>
-                  <p className="text-zinc-400 leading-relaxed text-sm md:text-base">
+                  <p className="text-zinc-600 dark:text-zinc-400 leading-relaxed text-sm md:text-base">
                     {option.description}
                   </p>
                   <div className="pt-4">
                     <Link
                       to={option.id === 'main' ? '/atlas/main' : '/atlas/sub'}
-                      className="inline-flex items-center gap-2 px-6 py-3 bg-emerald-500 text-black font-bold rounded-full hover:bg-emerald-400 transition-all group/btn"
+                      className="inline-flex items-center gap-2 px-6 py-3 bg-emerald-600 dark:bg-emerald-500 text-white dark:text-black font-bold rounded-full hover:bg-emerald-700 dark:hover:bg-emerald-400 transition-all group/btn"
                     >
                       <span>立即阅读</span>
                       <ArrowRight className="w-5 h-5 group-hover/btn:translate-x-1 transition-transform" />

@@ -129,25 +129,25 @@ export default function Admin() {
   };
 
   return (
-    <div className="min-h-screen bg-zinc-950 text-white selection:bg-emerald-500/30">
+    <div className="min-h-screen bg-white dark:bg-zinc-950 text-zinc-900 dark:text-white selection:bg-emerald-500/30 transition-colors duration-300">
       {/* Admin Header */}
-      <header className="border-b border-white/10 bg-black/50 backdrop-blur-md sticky top-0 z-50">
+      <header className="border-b border-zinc-200 dark:border-white/10 bg-white/50 dark:bg-black/50 backdrop-blur-md sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
           <div className="flex items-center gap-4">
             <button 
               onClick={() => navigate('/')}
-              className="p-2 hover:bg-white/10 rounded-full transition-colors text-zinc-400 hover:text-white"
+              className="p-2 hover:bg-zinc-100 dark:hover:bg-white/10 rounded-full transition-colors text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white"
             >
               <ArrowLeft className="w-5 h-5" />
             </button>
             <div className="flex items-center gap-2">
-              <Database className="w-5 h-5 text-emerald-400" />
-              <h1 className="text-xl font-bold tracking-tight">预约管理系统</h1>
+              <Database className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
+              <h1 className="text-xl font-bold tracking-tight text-zinc-900 dark:text-white">预约管理系统</h1>
             </div>
           </div>
           <button 
             onClick={handleLogout}
-            className="text-sm font-medium text-zinc-400 hover:text-white transition-colors"
+            className="text-sm font-medium text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition-colors"
           >
             退出登录
           </button>
@@ -158,27 +158,27 @@ export default function Admin() {
       <main className="max-w-7xl mx-auto px-6 py-12">
         <div className="mb-8 flex flex-col lg:flex-row lg:items-end justify-between gap-6">
           <div>
-            <h2 className="text-3xl font-bold mb-2">预约记录</h2>
-            <p className="text-zinc-400">查看并管理所有来自展馆预约模块的提交信息。</p>
+            <h2 className="text-3xl font-bold mb-2 text-zinc-900 dark:text-white">预约记录</h2>
+            <p className="text-zinc-600 dark:text-zinc-400">查看并管理所有来自展馆预约模块的提交信息。</p>
           </div>
           
           <div className="flex flex-col sm:flex-row gap-4">
             {/* Search Bar */}
             <div className="relative group">
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-500 group-focus-within:text-emerald-400 transition-colors" />
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-400 dark:text-zinc-500 group-focus-within:text-emerald-600 dark:group-focus-within:text-emerald-400 transition-colors" />
               <input 
                 type="text"
                 placeholder="搜索姓名、电话或编号..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-11 pr-4 py-2.5 bg-zinc-900 border border-white/10 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/50 transition-all w-full sm:w-64"
+                className="pl-11 pr-4 py-2.5 bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-white/10 rounded-xl text-sm text-zinc-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-emerald-500/50 transition-all w-full sm:w-64"
               />
             </div>
             
             <button
               onClick={handleExport}
               disabled={filteredReservations.length === 0 || isLoading}
-              className="flex items-center justify-center gap-2 px-5 py-2.5 bg-emerald-500/10 text-emerald-400 hover:bg-emerald-500/20 disabled:opacity-50 disabled:cursor-not-allowed rounded-xl transition-colors font-medium border border-emerald-500/20"
+              className="flex items-center justify-center gap-2 px-5 py-2.5 bg-emerald-500/5 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 hover:bg-emerald-500/10 dark:hover:bg-emerald-500/20 disabled:opacity-50 disabled:cursor-not-allowed rounded-xl transition-colors font-medium border border-emerald-500/20"
             >
               <Download className="w-4 h-4" />
               导出 CSV
@@ -191,47 +191,47 @@ export default function Admin() {
             <div className="w-8 h-8 border-4 border-emerald-500/30 border-t-emerald-500 rounded-full animate-spin" />
           </div>
         ) : filteredReservations.length === 0 ? (
-          <div className="bg-zinc-900/50 border border-white/10 rounded-2xl p-12 text-center">
-            <Database className="w-12 h-12 text-zinc-600 mx-auto mb-4" />
-            <h3 className="text-xl font-medium text-white mb-2">
+          <div className="bg-zinc-50 dark:bg-zinc-900/50 border border-zinc-200 dark:border-white/10 rounded-2xl p-12 text-center">
+            <Database className="w-12 h-12 text-zinc-300 dark:text-zinc-600 mx-auto mb-4" />
+            <h3 className="text-xl font-medium text-zinc-900 dark:text-white mb-2">
               {searchQuery ? '未找到匹配结果' : '暂无预约数据'}
             </h3>
-            <p className="text-zinc-400">
+            <p className="text-zinc-600 dark:text-zinc-400">
               {searchQuery ? `尝试搜索其他关键词或清除搜索框。` : '目前还没有人提交展馆预约。'}
             </p>
             {searchQuery && (
               <button 
                 onClick={() => setSearchQuery('')}
-                className="mt-4 text-emerald-400 hover:underline text-sm"
+                className="mt-4 text-emerald-600 dark:text-emerald-400 hover:underline text-sm"
               >
                 清除搜索
               </button>
             )}
           </div>
         ) : (
-          <div className="bg-zinc-900/50 border border-white/10 rounded-2xl overflow-hidden">
+          <div className="bg-white dark:bg-zinc-900/50 border border-zinc-200 dark:border-white/10 rounded-2xl overflow-hidden shadow-sm dark:shadow-none">
             <div className="overflow-x-auto">
               <table className="w-full text-left border-collapse">
                 <thead>
-                  <tr className="border-b border-white/10 bg-black/50">
-                    <th className="p-4 text-sm font-medium text-zinc-400 whitespace-nowrap">预约编号</th>
-                    <th className="p-4 text-sm font-medium text-zinc-400 whitespace-nowrap">提交时间</th>
-                    <th className="p-4 text-sm font-medium text-zinc-400 whitespace-nowrap">姓名</th>
-                    <th className="p-4 text-sm font-medium text-zinc-400 whitespace-nowrap">身份/人数</th>
-                    <th className="p-4 text-sm font-medium text-zinc-400 whitespace-nowrap">联系电话</th>
-                    <th className="p-4 text-sm font-medium text-zinc-400 whitespace-nowrap">预约日期</th>
-                    <th className="p-4 text-sm font-medium text-zinc-400 whitespace-nowrap">预约时间</th>
-                    <th className="p-4 text-sm font-medium text-zinc-400">备注信息</th>
-                    <th className="p-4 text-sm font-medium text-zinc-400 text-right">操作</th>
+                  <tr className="border-b border-zinc-100 dark:border-white/10 bg-zinc-50/50 dark:bg-black/50">
+                    <th className="p-4 text-sm font-medium text-zinc-500 dark:text-zinc-400 whitespace-nowrap">预约编号</th>
+                    <th className="p-4 text-sm font-medium text-zinc-500 dark:text-zinc-400 whitespace-nowrap">提交时间</th>
+                    <th className="p-4 text-sm font-medium text-zinc-500 dark:text-zinc-400 whitespace-nowrap">姓名</th>
+                    <th className="p-4 text-sm font-medium text-zinc-500 dark:text-zinc-400 whitespace-nowrap">身份/人数</th>
+                    <th className="p-4 text-sm font-medium text-zinc-500 dark:text-zinc-400 whitespace-nowrap">联系电话</th>
+                    <th className="p-4 text-sm font-medium text-zinc-500 dark:text-zinc-400 whitespace-nowrap">预约日期</th>
+                    <th className="p-4 text-sm font-medium text-zinc-500 dark:text-zinc-400 whitespace-nowrap">预约时间</th>
+                    <th className="p-4 text-sm font-medium text-zinc-500 dark:text-zinc-400">备注信息</th>
+                    <th className="p-4 text-sm font-medium text-zinc-500 dark:text-zinc-400 text-right">操作</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-white/5">
+                <tbody className="divide-y divide-zinc-100 dark:divide-white/5">
                   {filteredReservations.map((res) => (
-                    <tr key={res.id} className="hover:bg-white/5 transition-colors group">
-                      <td className="p-4 text-sm font-mono text-emerald-400 whitespace-nowrap">
+                    <tr key={res.id} className="hover:bg-zinc-50 dark:hover:bg-white/5 transition-colors group">
+                      <td className="p-4 text-sm font-mono text-emerald-600 dark:text-emerald-400 whitespace-nowrap">
                         {res.id}
                       </td>
-                      <td className="p-4 text-sm text-zinc-300 whitespace-nowrap">
+                      <td className="p-4 text-sm text-zinc-600 dark:text-zinc-300 whitespace-nowrap">
                         {new Date(res.created_at!).toLocaleString('zh-CN', {
                           month: '2-digit',
                           day: '2-digit',
@@ -239,46 +239,46 @@ export default function Admin() {
                           minute: '2-digit'
                         })}
                       </td>
-                      <td className="p-4 text-sm font-medium text-white whitespace-nowrap">
+                      <td className="p-4 text-sm font-medium text-zinc-900 dark:text-white whitespace-nowrap">
                         <div className="flex items-center gap-2">
-                          <User className="w-4 h-4 text-zinc-500" /> {res.name}
+                          <User className="w-4 h-4 text-zinc-400 dark:text-zinc-500" /> {res.name}
                         </div>
                       </td>
-                      <td className="p-4 text-sm text-zinc-300 whitespace-nowrap">
+                      <td className="p-4 text-sm text-zinc-600 dark:text-zinc-300 whitespace-nowrap">
                         <div className="flex items-center gap-2">
-                          <Users className="w-4 h-4 text-zinc-500" /> {res.identity}
+                          <Users className="w-4 h-4 text-zinc-400 dark:text-zinc-500" /> {res.identity}
                         </div>
                       </td>
-                      <td className="p-4 text-sm text-zinc-300 whitespace-nowrap">
+                      <td className="p-4 text-sm text-zinc-600 dark:text-zinc-300 whitespace-nowrap">
                         <div className="flex items-center gap-2">
-                          <Phone className="w-4 h-4 text-zinc-500" /> {res.phone}
+                          <Phone className="w-4 h-4 text-zinc-400 dark:text-zinc-500" /> {res.phone}
                         </div>
                       </td>
-                      <td className="p-4 text-sm text-zinc-300 whitespace-nowrap">
+                      <td className="p-4 text-sm text-zinc-600 dark:text-zinc-300 whitespace-nowrap">
                         <div className="flex items-center gap-2">
-                          <Calendar className="w-4 h-4 text-emerald-400" /> {res.visit_date}
+                          <Calendar className="w-4 h-4 text-emerald-600 dark:text-emerald-400" /> {res.visit_date}
                         </div>
                       </td>
-                      <td className="p-4 text-sm text-zinc-300 whitespace-nowrap">
+                      <td className="p-4 text-sm text-zinc-600 dark:text-zinc-300 whitespace-nowrap">
                         <div className="flex items-center gap-2">
-                          <Calendar className="w-4 h-4 text-emerald-400" /> {res.visit_time}
+                          <Calendar className="w-4 h-4 text-emerald-600 dark:text-emerald-400" /> {res.visit_time}
                         </div>
                       </td>
-                      <td className="p-4 text-sm text-zinc-400 max-w-xs truncate" title={res.remarks}>
-                        {res.remarks || <span className="text-zinc-600 italic">无备注</span>}
+                      <td className="p-4 text-sm text-zinc-500 dark:text-zinc-400 max-w-xs truncate" title={res.remarks}>
+                        {res.remarks || <span className="text-zinc-400 dark:text-zinc-600 italic">无备注</span>}
                       </td>
                       <td className="p-4 text-right whitespace-nowrap">
                         <div className="flex items-center justify-end gap-2 transition-opacity">
                           <button 
                             onClick={() => setEditingRes(res)}
-                            className="p-2 text-zinc-400 hover:text-emerald-400 hover:bg-emerald-500/10 rounded-lg transition-all"
+                            className="p-2 text-zinc-400 hover:text-emerald-600 dark:hover:text-emerald-400 hover:bg-emerald-500/10 rounded-lg transition-all"
                             title="编辑"
                           >
                             <Edit className="w-4 h-4" />
                           </button>
                           <button 
                             onClick={() => setDeletingId(res.id || null)}
-                            className="p-2 text-zinc-400 hover:text-red-400 hover:bg-red-500/10 rounded-lg transition-all"
+                            className="p-2 text-zinc-400 hover:text-red-600 dark:hover:text-red-400 hover:bg-red-500/10 rounded-lg transition-all"
                             title="删除"
                           >
                             <Trash2 className="w-4 h-4" />
@@ -297,15 +297,15 @@ export default function Admin() {
       {/* Edit Modal */}
       {editingRes && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-in fade-in duration-200">
-          <div className="bg-zinc-900 border border-white/10 rounded-2xl w-full max-w-lg overflow-hidden shadow-2xl animate-in zoom-in-95 duration-200">
-            <div className="p-6 border-b border-white/10 flex items-center justify-between bg-black/20">
-              <h3 className="text-xl font-bold flex items-center gap-2">
-                <Edit className="w-5 h-5 text-emerald-400" />
+          <div className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-white/10 rounded-2xl w-full max-w-lg overflow-hidden shadow-2xl animate-in zoom-in-95 duration-200">
+            <div className="p-6 border-b border-zinc-100 dark:border-white/10 flex items-center justify-between bg-zinc-50 dark:bg-black/20">
+              <h3 className="text-xl font-bold flex items-center gap-2 text-zinc-900 dark:text-white">
+                <Edit className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
                 编辑预约信息
               </h3>
               <button 
                 onClick={() => setEditingRes(null)}
-                className="p-2 hover:bg-white/10 rounded-full transition-colors"
+                className="p-2 hover:bg-zinc-100 dark:hover:bg-white/10 rounded-full transition-colors text-zinc-500 dark:text-white"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -320,7 +320,7 @@ export default function Admin() {
                     required
                     value={editingRes.name}
                     onChange={(e) => setEditingRes({...editingRes, name: e.target.value})}
-                    className="w-full bg-black border border-white/10 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/50 transition-all"
+                    className="w-full bg-zinc-50 dark:bg-black border border-zinc-200 dark:border-white/10 rounded-xl px-4 py-2.5 text-sm text-zinc-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-emerald-500/50 transition-all"
                   />
                 </div>
                 <div className="space-y-1.5">
@@ -330,7 +330,7 @@ export default function Admin() {
                     required
                     value={editingRes.identity}
                     onChange={(e) => setEditingRes({...editingRes, identity: e.target.value})}
-                    className="w-full bg-black border border-white/10 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/50 transition-all"
+                    className="w-full bg-zinc-50 dark:bg-black border border-zinc-200 dark:border-white/10 rounded-xl px-4 py-2.5 text-sm text-zinc-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-emerald-500/50 transition-all"
                   />
                 </div>
               </div>
@@ -342,7 +342,7 @@ export default function Admin() {
                   required
                   value={editingRes.phone}
                   onChange={(e) => setEditingRes({...editingRes, phone: e.target.value})}
-                  className="w-full bg-black border border-white/10 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/50 transition-all"
+                  className="w-full bg-zinc-50 dark:bg-black border border-zinc-200 dark:border-white/10 rounded-xl px-4 py-2.5 text-sm text-zinc-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-emerald-500/50 transition-all"
                 />
               </div>
               
@@ -354,7 +354,7 @@ export default function Admin() {
                     required
                     value={editingRes.visit_date}
                     onChange={(e) => setEditingRes({...editingRes, visit_date: e.target.value})}
-                    className="w-full bg-black border border-white/10 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/50 transition-all [color-scheme:dark]"
+                    className="w-full bg-zinc-50 dark:bg-black border border-zinc-200 dark:border-white/10 rounded-xl px-4 py-2.5 text-sm text-zinc-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-emerald-500/50 transition-all dark:[color-scheme:dark]"
                   />
                 </div>
                 <div className="space-y-1.5">
@@ -364,7 +364,7 @@ export default function Admin() {
                     required
                     value={editingRes.visit_time}
                     onChange={(e) => setEditingRes({...editingRes, visit_time: e.target.value})}
-                    className="w-full bg-black border border-white/10 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/50 transition-all [color-scheme:dark]"
+                    className="w-full bg-zinc-50 dark:bg-black border border-zinc-200 dark:border-white/10 rounded-xl px-4 py-2.5 text-sm text-zinc-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-emerald-500/50 transition-all dark:[color-scheme:dark]"
                   />
                 </div>
               </div>
@@ -375,7 +375,7 @@ export default function Admin() {
                   rows={3}
                   value={editingRes.remarks}
                   onChange={(e) => setEditingRes({...editingRes, remarks: e.target.value})}
-                  className="w-full bg-black border border-white/10 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/50 transition-all resize-none"
+                  className="w-full bg-zinc-50 dark:bg-black border border-zinc-200 dark:border-white/10 rounded-xl px-4 py-2.5 text-sm text-zinc-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-emerald-500/50 transition-all resize-none"
                 />
               </div>
               
@@ -383,17 +383,17 @@ export default function Admin() {
                 <button 
                   type="button"
                   onClick={() => setEditingRes(null)}
-                  className="flex-1 px-6 py-3 border border-white/10 rounded-xl text-sm font-medium hover:bg-white/5 transition-colors"
+                  className="flex-1 px-6 py-3 border border-zinc-200 dark:border-white/10 rounded-xl text-sm font-medium text-zinc-600 dark:text-zinc-300 hover:bg-zinc-50 dark:hover:bg-white/5 transition-colors"
                 >
                   取消
                 </button>
                 <button 
                   type="submit"
                   disabled={isUpdating}
-                  className="flex-1 px-6 py-3 bg-emerald-500 text-black rounded-xl text-sm font-bold hover:bg-emerald-400 transition-colors disabled:opacity-50 flex items-center justify-center gap-2"
+                  className="flex-1 px-6 py-3 bg-emerald-600 dark:bg-emerald-500 text-white dark:text-black rounded-xl text-sm font-bold hover:bg-emerald-700 dark:hover:bg-emerald-400 transition-colors disabled:opacity-50 flex items-center justify-center gap-2"
                 >
                   {isUpdating ? (
-                    <div className="w-4 h-4 border-2 border-black/20 border-t-black rounded-full animate-spin" />
+                    <div className="w-4 h-4 border-2 border-white/20 border-t-white dark:border-black/20 dark:border-t-black rounded-full animate-spin" />
                   ) : (
                     <>
                       <Check className="w-4 h-4" />
@@ -410,28 +410,28 @@ export default function Admin() {
       {/* Delete Confirmation Modal */}
       {deletingId && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-in fade-in duration-200">
-          <div className="bg-zinc-900 border border-white/10 rounded-2xl w-full max-w-sm overflow-hidden shadow-2xl animate-in zoom-in-95 duration-200">
-            <div className="p-8 text-center">
-              <div className="w-16 h-16 bg-red-500/10 text-red-500 rounded-full flex items-center justify-center mx-auto mb-6">
+          <div className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-white/10 rounded-2xl w-full max-w-sm overflow-hidden shadow-2xl animate-in zoom-in-95 duration-200">
+            <div className="p-8 text-center text-zinc-900 dark:text-white">
+              <div className="w-16 h-16 bg-red-500/10 text-red-600 dark:text-red-500 rounded-full flex items-center justify-center mx-auto mb-6">
                 <AlertCircle className="w-8 h-8" />
               </div>
               <h3 className="text-xl font-bold mb-2">确认删除？</h3>
-              <p className="text-zinc-400 text-sm leading-relaxed">
+              <p className="text-zinc-600 dark:text-zinc-400 text-sm leading-relaxed">
                 此操作将永久删除该预约记录，删除后将无法恢复。
               </p>
             </div>
             
-            <div className="p-6 bg-black/20 border-t border-white/10 flex gap-3">
+            <div className="p-6 bg-zinc-50 dark:bg-black/20 border-t border-zinc-100 dark:border-white/10 flex gap-3">
               <button 
                 onClick={() => setDeletingId(null)}
-                className="flex-1 px-4 py-2.5 border border-white/10 rounded-xl text-sm font-medium hover:bg-white/5 transition-colors"
+                className="flex-1 px-4 py-2.5 border border-zinc-200 dark:border-white/10 rounded-xl text-sm font-medium text-zinc-600 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-white/5 transition-colors"
               >
                 取消
               </button>
               <button 
                 onClick={() => handleDelete(deletingId)}
                 disabled={isDeleting}
-                className="flex-1 px-4 py-2.5 bg-red-500 text-white rounded-xl text-sm font-bold hover:bg-red-600 transition-colors disabled:opacity-50 flex items-center justify-center gap-2"
+                className="flex-1 px-4 py-2.5 bg-red-600 dark:bg-red-500 text-white rounded-xl text-sm font-bold hover:bg-red-700 dark:hover:bg-red-600 transition-colors disabled:opacity-50 flex items-center justify-center gap-2"
               >
                 {isDeleting ? (
                   <div className="w-4 h-4 border-2 border-white/20 border-t-white rounded-full animate-spin" />

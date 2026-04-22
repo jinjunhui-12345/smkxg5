@@ -33,7 +33,7 @@ const studentsData = [
 
 export default function Students() {
   return (
-    <section id="students" className="py-32 bg-zinc-900 overflow-hidden">
+    <section id="students" className="py-32 bg-zinc-100 dark:bg-zinc-900 overflow-hidden transition-colors duration-300">
       <div className="max-w-7xl mx-auto px-6 mb-16">
         <motion.div 
           initial="hidden"
@@ -46,13 +46,13 @@ export default function Students() {
         >
           <motion.h2
             variants={{ hidden: { opacity: 0, y: 30 }, visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } } }}
-            className="text-sm uppercase tracking-[0.3em] text-emerald-400 mb-4 font-semibold"
+            className="text-sm uppercase tracking-[0.3em] text-emerald-600 dark:text-emerald-400 mb-4 font-semibold"
           >
             02 / 学生风采
           </motion.h2>
           <motion.h3
             variants={{ hidden: { opacity: 0, y: 30 }, visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } } }}
-            className="text-5xl md:text-7xl font-bold tracking-tight text-white"
+            className="text-5xl md:text-7xl font-bold tracking-tight text-zinc-900 dark:text-white"
           >
             青春力量
           </motion.h3>
@@ -67,7 +67,7 @@ export default function Students() {
             whileInView={{ opacity: 1, scale: 1, x: 0 }}
             viewport={{ once: true, margin: "-50px" }}
             transition={{ duration: 0.8, delay: index * 0.1, ease: [0.16, 1, 0.3, 1] }}
-            className="group relative w-[85vw] md:w-[450px] lg:w-[500px] h-[500px] md:h-[600px] flex-shrink-0 overflow-hidden rounded-3xl bg-zinc-800 snap-center md:snap-start"
+            className="group relative w-[85vw] md:w-[450px] lg:w-[500px] h-[500px] md:h-[600px] flex-shrink-0 overflow-hidden rounded-3xl bg-white dark:bg-zinc-800 snap-center md:snap-start shadow-xl dark:shadow-none"
           >
             <img
               src={student.image}

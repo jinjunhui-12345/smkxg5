@@ -8,7 +8,7 @@ import Reservation from '../sections/Reservation';
 
 export default function Home() {
   return (
-    <div className="bg-black min-h-screen text-white selection:bg-emerald-500/30">
+    <div className="bg-white dark:bg-black min-h-screen text-zinc-900 dark:text-white selection:bg-emerald-500/30 transition-colors duration-300">
       <Navbar />
       <main>
         <Hero />
