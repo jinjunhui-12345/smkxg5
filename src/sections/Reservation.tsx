@@ -12,7 +12,6 @@ export default function Reservation() {
   const [formData, setFormData] = useState({
     name: '',
     identityType: '',
-    identityOther: '',
     peopleCount: '',
     phone: '',
     visit_date: '',
@@ -66,10 +65,6 @@ export default function Reservation() {
       alert('请选择身份');
       return;
     }
-    if (formData.identityType === '其他' && !formData.identityOther) {
-      alert('请输入您的身份');
-      return;
-    }
 
     // 3. People count validation
     const count = parseInt(formData.peopleCount);
@@ -89,6 +84,15 @@ export default function Reservation() {
     if (selectedDate < today) {
       alert('预约日期不能早于当前日期');
       return;
+    }
+
+    // Add specific restriction for "校内个人"
+    if (formData.identityType === '校内个人') {
+      const day = selectedDate.getDate();
+      if (day !== 19) {
+        alert('校内个人仅限预约每月19日的开放日');
+        return;
+      }
     }
 
     // 5. Time validation
@@ -117,7 +121,7 @@ export default function Reservation() {
   const submitForm = async () => {
     setIsSubmitting(true);
     try {
-      const finalIdentity = `${formData.identityType === '其他' ? formData.identityOther : formData.identityType}/${formData.peopleCount}人`;
+      const finalIdentity = `${formData.identityType}/${formData.peopleCount}人`;
       
       const submissionData = {
         name: formData.name,
@@ -135,7 +139,6 @@ export default function Reservation() {
       setFormData({ 
         name: '', 
         identityType: '', 
-        identityOther: '', 
         peopleCount: '', 
         phone: '', 
         visit_date: '', 
@@ -195,10 +198,18 @@ export default function Reservation() {
                 <div className="w-12 h-12 rounded-full bg-zinc-100 dark:bg-zinc-900 flex items-center justify-center">
                   <Calendar className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
                 </div>
-                <div>
-                  <p className="font-medium text-zinc-900 dark:text-white">开放时间</p>
-                  <p className="text-sm">详见公众号</p>
-                </div>
+            <div>
+              <p className="font-medium text-zinc-900 dark:text-white">开放时间</p>
+              <p className="text-sm">每月19日为开放日，特殊情况、节假日除外。</p>
+              <a 
+                href="https://baike.baidu.com/item/%E4%B8%AD%E5%9B%BD%E5%8C%BB%E5%B8%88%E8%8A%82/9193097" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="text-xs text-emerald-600 dark:text-emerald-400 hover:underline mt-1 block"
+              >
+                每年8月19日为中国医师节
+              </a>
+            </div>
               </motion.div>
               <motion.div variants={itemVariants} className="flex items-center gap-4 text-zinc-600 dark:text-zinc-300">
                 <div className="w-12 h-12 rounded-full bg-zinc-100 dark:bg-zinc-900 flex items-center justify-center">
@@ -238,48 +249,12 @@ export default function Reservation() {
           transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
           className="bg-white dark:bg-zinc-900/50 backdrop-blur-xl border border-zinc-200 dark:border-white/10 rounded-3xl p-8 md:p-12 relative overflow-hidden shadow-2xl dark:shadow-none"
         >
-          {/* Overlay for locked state */}
-          <div className="absolute inset-0 z-50 bg-white/60 dark:bg-zinc-950/60 backdrop-blur-sm flex flex-col items-center justify-center text-center p-6">
-            <motion.div
-              initial={{ scale: 0.9, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              className="bg-white dark:bg-zinc-900/80 border border-zinc-200 dark:border-white/10 p-8 rounded-2xl shadow-2xl"
-            >
-              <AlertCircle className="w-12 h-12 text-zinc-400 dark:text-zinc-500 mx-auto mb-4" />
-              <h4 className="text-2xl font-bold text-zinc-900 dark:text-white mb-2">暂未开放预约</h4>
-              <p className="text-zinc-600 dark:text-zinc-400 mb-6">暂未开放预约系统，请按需直接到场参观</p>
-              
-              <div className="text-left space-y-4 bg-emerald-500/5 border border-emerald-500/20 rounded-2xl p-5">
-                <div className="flex items-center gap-2 text-emerald-600 dark:text-emerald-400 mb-2">
-                  <span className="font-bold tracking-wider">温馨提示：生命科学馆将于4月26日（本周日）向全体师生开放</span>
-                </div>
-                
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <p className="text-[10px] uppercase tracking-wider text-zinc-500 font-bold">开放时段</p>
-                    <p className="text-sm text-zinc-600 dark:text-zinc-300">上午：08:30 - 11:30</p>
-                    <p className="text-sm text-zinc-600 dark:text-zinc-300">下午：15:00 - 18:00</p>
-                  </div>
-                  <div className="space-y-2">
-                    <p className="text-[10px] uppercase tracking-wider text-zinc-500 font-bold">专业讲解场次</p>
-                    <p className="text-sm text-zinc-600 dark:text-zinc-300">上午：09:30 / 10:30</p>
-                    <p className="text-sm text-zinc-600 dark:text-zinc-300">下午：15:30 / 17:00</p>
-                  </div>
-                </div>
-                
-                <p className="text-[11px] text-zinc-400 dark:text-zinc-500 pt-2 border-t border-zinc-200 dark:border-white/5 italic">
-                  * 本次活动向全体师生开放，到场可直接参观
-                </p>
-              </div>
-            </motion.div>
-          </div>
-
           <motion.form 
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
             variants={containerVariants}
-            className="space-y-6 opacity-20 pointer-events-none" 
+            className="space-y-6" 
             onSubmit={handleSubmit}
           >
             {isSuccess && (
@@ -321,12 +296,8 @@ export default function Reservation() {
                     >
                       <option value="" disabled className="bg-white dark:bg-zinc-900">请选择身份</option>
                       <option value="校内团体" className="bg-white dark:bg-zinc-900">校内团体</option>
+                      <option value="校内个人" className="bg-white dark:bg-zinc-900">校内个人</option>
                       <option value="社会团体" className="bg-white dark:bg-zinc-900">社会团体</option>
-                      <option value="校内老师" className="bg-white dark:bg-zinc-900">校内老师</option>
-                      <option value="校内学生" className="bg-white dark:bg-zinc-900">校内学生</option>
-                      <option value="校外学生" className="bg-white dark:bg-zinc-900">校外学生</option>
-                      <option value="社会人员" className="bg-white dark:bg-zinc-900">社会人员</option>
-                      <option value="其他" className="bg-white dark:bg-zinc-900">其他请输入</option>
                     </select>
                     <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-zinc-400 dark:text-zinc-500 group-hover:text-emerald-500 dark:group-hover:text-emerald-400 transition-colors">
                       <List className="w-4 h-4" />
@@ -334,26 +305,6 @@ export default function Reservation() {
                   </div>
                 </motion.div>
               </div>
-
-              {formData.identityType === '其他' && (
-                <motion.div 
-                  initial={{ opacity: 0, height: 0 }}
-                  animate={{ opacity: 1, height: 'auto' }}
-                  className="space-y-2"
-                >
-                  <label className="text-sm font-medium text-zinc-500 dark:text-zinc-400 flex items-center gap-2">
-                    <List className="w-4 h-4" /> 其他身份说明 <span className="text-emerald-500">*</span>
-                  </label>
-                  <input
-                    type="text"
-                    required
-                    value={formData.identityOther}
-                    onChange={(e) => setFormData({...formData, identityOther: e.target.value})}
-                    className="w-full bg-zinc-50 dark:bg-black/50 border border-zinc-200 dark:border-white/10 rounded-xl px-4 py-3 text-zinc-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-emerald-500/50 transition-all"
-                    placeholder="请输入您的身份"
-                  />
-                </motion.div>
-              )}
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <motion.div variants={itemVariants} className="space-y-2">
@@ -436,10 +387,10 @@ export default function Reservation() {
             <motion.button
               variants={itemVariants}
               type="submit"
-              disabled={true}
-              className="w-full bg-zinc-100 dark:bg-zinc-800 text-zinc-400 dark:text-zinc-500 font-bold py-4 rounded-xl cursor-not-allowed flex justify-center items-center border border-zinc-200 dark:border-white/5"
+              disabled={isSubmitting}
+              className="w-full bg-emerald-500 hover:bg-emerald-400 text-black font-bold py-4 rounded-xl transition-colors duration-300 flex justify-center items-center shadow-lg shadow-emerald-500/20"
             >
-              预约通道暂未开启
+              {isSubmitting ? '正在提交...' : '提交预约申请'}
             </motion.button>
 
             {lastSubmittedVoucher && (
