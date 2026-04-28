@@ -205,9 +205,10 @@ export default function Reservation() {
                 href="https://baike.baidu.com/item/%E4%B8%AD%E5%9B%BD%E5%8C%BB%E5%B8%88%E8%8A%82/9193097" 
                 target="_blank" 
                 rel="noopener noreferrer" 
-                className="text-xs text-emerald-600 dark:text-emerald-400 hover:underline mt-1 block"
+                className="text-sm text-emerald-600 dark:text-emerald-400 hover:opacity-80 mt-1 flex items-center gap-1 group"
               >
                 每年8月19日为中国医师节
+                <ChevronRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
               </a>
             </div>
               </motion.div>
@@ -291,7 +292,17 @@ export default function Reservation() {
                     <select
                       required
                       value={formData.identityType}
-                      onChange={(e) => setFormData({...formData, identityType: e.target.value})}
+                      onChange={(e) => {
+                        const newType = e.target.value;
+                        let newDate = formData.visit_date;
+                        if (newType === '校内个人' && newDate) {
+                          const day = new Date(newDate).getDate();
+                          if (day !== 19) {
+                            newDate = ''; // Clear invalid date
+                          }
+                        }
+                        setFormData({...formData, identityType: newType, visit_date: newDate});
+                      }}
                       className="w-full bg-zinc-50 dark:bg-black/50 border border-zinc-200 dark:border-white/10 rounded-xl px-4 py-3 text-zinc-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-emerald-500/50 transition-all appearance-none cursor-pointer hover:border-zinc-300 dark:hover:border-white/20"
                     >
                       <option value="" disabled className="bg-white dark:bg-zinc-900">请选择身份</option>
@@ -346,9 +357,24 @@ export default function Reservation() {
                     required
                     min={new Date().toISOString().split('T')[0]}
                     value={formData.visit_date}
-                    onChange={(e) => setFormData({...formData, visit_date: e.target.value})}
+                    onChange={(e) => {
+                      const newDate = e.target.value;
+                      if (formData.identityType === '校内个人' && newDate) {
+                        const day = new Date(newDate).getDate();
+                        if (day !== 19) {
+                          alert('校内个人仅限预约每月19日的开放日');
+                          return;
+                        }
+                      }
+                      setFormData({...formData, visit_date: newDate});
+                    }}
                     className="w-full bg-zinc-50 dark:bg-black/50 border border-zinc-200 dark:border-white/10 rounded-xl px-4 py-3 text-zinc-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-emerald-500/50 transition-all dark:[color-scheme:dark]"
                   />
+                  {formData.identityType === '校内个人' && (
+                    <p className="text-[10px] text-emerald-600/80 dark:text-emerald-400/80 mt-1 font-medium italic">
+                      * 校内个人仅支持预约每月19日
+                    </p>
+                  )}
                 </motion.div>
                 <motion.div variants={itemVariants} className="space-y-2">
                   <label className="text-sm font-medium text-zinc-500 dark:text-zinc-400 flex items-center gap-2">
