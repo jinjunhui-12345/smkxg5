@@ -6,6 +6,3 @@ coverage/
 *.log
 .env*
 !.env.example
-*.pdf
-lsmbooks.pdf
-lsmbooks2.pdf
